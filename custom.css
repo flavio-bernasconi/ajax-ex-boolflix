@@ -16,10 +16,7 @@ body{
   justify-content: space-between;
 }
 
-.movieSingolo{
-  margin-top: 50px;
-  position: relative;
-}
+
 .searchBar{
   padding-bottom: 0;
   width: 100%;
@@ -47,6 +44,16 @@ body{
   font-size: 16px;
 }
 
+
+
+
+.movieSingolo{
+  margin-top: 50px;
+  position: relative;
+}
+.movieSingolo{
+  cursor: pointer;
+}
 .overlay{
   position: absolute;
   top: 0;

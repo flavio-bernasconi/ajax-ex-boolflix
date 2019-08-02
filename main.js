@@ -1,5 +1,7 @@
 $( document ).ready(function() {
 
+  var inc = 1;
+
   var votoMovie = "";
 
   function tutto(){
@@ -7,7 +9,10 @@ $( document ).ready(function() {
 
     var word = "&query=" + valore;
 
-    var urlMovie = "https://api.themoviedb.org/3/search/movie?api_key=085f025c352f6e30faea971db0667d31"+word ;
+    var pagNum = "&page=" + inc;
+    console.log("numero pagina",pagNum);
+
+    var urlMovie = "https://api.themoviedb.org/3/search/movie?api_key=085f025c352f6e30faea971db0667d31"+word+pagNum ;
 
     console.log(urlMovie);
 
@@ -23,7 +28,10 @@ $( document ).ready(function() {
 
     function chiamataFilm(){
       $.ajax(settings).done(function (response) {
-        console.log("oggetto response",response.results);
+        // console.log("oggetto response",response.results);
+        console.log("oggetto response",response);
+
+
 
         for (var i = 0; i < response.results.length; i++) {
           // console.log("singolo film",response.results[i]);
@@ -240,6 +248,26 @@ $( document ).ready(function() {
       tutto()
       }
     })
+
+
+    $(".next").click(
+      function(){
+        inc = inc+1;
+        $(".container").empty();
+        tutto()
+      }
+    )
+
+    $(".prev").click(
+      function(){
+        if (inc > 1) {
+          inc = inc-1;
+          $(".container").empty();
+          tutto()
+        }
+
+      }
+    )
 
 
 
