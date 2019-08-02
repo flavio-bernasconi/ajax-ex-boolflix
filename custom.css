@@ -4,6 +4,10 @@
     font-family: 'Lato', sans-serif;
     box-sizing: border-box;
 }
+body{
+  background: black;
+}
+
 .container{
   padding: 50px;
   padding-top: 0;
@@ -14,11 +18,57 @@
 
 .movieSingolo{
   margin-top: 50px;
+  position: relative;
 }
 .searchBar{
-  padding: 50px;
   padding-bottom: 0;
+  width: 100%;
+  background: red;
+  padding: 30px 40px;
 }
+.searchBar input {
+  width: 250px;
+  margin-right: 10px;
+  padding-left: 15px;
+}
+.searchBar input , .searchBar button{
+  height: 30px;
+  border-radius: 20px;
+  border:none;
+  border-color:none;
+}
+.searchBar input:focus , .searchBar button:focus{
+  outline: none
+}
+.searchBar button{
+  width: 80px;
+  background: black;
+  color: white;
+  font-size: 16px;
+}
+
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .3s ease;
+  background-color: #212121;
+  padding: 40px;
+}
+.dettagli{
+  color: white;
+}
+.dettagli *{
+  margin-top: 20px;
+}
+
+.movieSingolo:hover .overlay{
+  opacity: 0.9;
+}
+
 
 
 /*  */

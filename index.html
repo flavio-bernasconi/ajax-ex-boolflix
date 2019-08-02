@@ -13,8 +13,11 @@
     <body>
 
       <div class="searchBar">
-        <input type="text" class="cerca" />
-        <button type="button" class="btn-search">cercaaaaa</button>
+        <div class="">
+          <input type="text" class="cerca" />
+          <button type="button" class="btn-search">Search</button>
+        </div>
+
       </div>
 
 
@@ -32,11 +35,14 @@
       <script id="dataBase" type="text/x-handlebars-template">
         <div class='movieSingolo'>
           <img class="img-film" src='{{poster}}'>
-          <p>Titolo : <span> {{titoloFilm}}</span></p>
-          <p>Titolo originale : <span>{{titoloOriginale}}</span></p>
-          <p>Lingua : <span class="lang" data-lingua='{{lingua}}'></span></p>
-          <p>Voto: <span class="rate" data-numero='{{voto}}'></span></p>
-
+          <div class="overlay">
+            <div class="dettagli">
+              <p>Titolo : <span> {{titoloFilm}}</span></p>
+              <p>Titolo originale : <span>{{titoloOriginale}}</span></p>
+              <p>Lingua : <span class="lang" data-lingua='{{lingua}}'></span></p>
+              <p>Voto: <span class="rate" data-numero='{{voto}}'></span></p>
+            </div>
+          </div>
         </div>
       </script>
 
