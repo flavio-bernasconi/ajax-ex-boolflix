@@ -1,5 +1,8 @@
 $( document ).ready(function() {
 
+  var votoMovie = "";
+
+
 
   $(".btn-search").click(
     function(){
@@ -21,35 +24,47 @@ $( document ).ready(function() {
 
       function chiamata(){
         $.ajax(settings).done(function (response) {
-          console.log("oggetto response",response.results);
+          // console.log("oggetto response",response.results);
 
           for (var i = 0; i < response.results.length; i++) {
-            console.log("singoli oggetti",response.results[i]);
+            console.log("singolo film",response.results[i]);
 
+            //creo variabili riferimento per handlebars
             var titoloMovie = response.results[i].title;
             var titoloMovie = response.results[i].original_title;
             var titoloOriginaleMovie = response.results[i].original_title;
             var linguaMovie = response.results[i].original_language;
-            var votoMovie = response.results[i].vote_average;
 
+            //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
+            //per ogni film
+            votoMovie = response.results[i].vote_average;
+            //numero di stelle inserire
             var numStelle = Math.round(votoMovie / 2);
-            //es. 4
-            
 
+            console.log("N stelle: ",numStelle);
+
+
+            //ogni ciclo lui mi appende qualcosa ma io vogli oappendarla per il numero pari al voto
 
 
 
             //template handelbars
             var sorgenteCodice = $("#dataBase").html();
-            console.log(sorgenteCodice);
 
             var template = Handlebars.compile(sorgenteCodice);
 
-            var daInserire = { titoloFilm: titoloMovie, titoloOriginale: titoloMovie, lingua: linguaMovie, voto : ""  };
+            //richiamo le variabili definite
+            var daInserire = {
+              titoloFilm: titoloMovie,
+              titoloOriginale: titoloMovie,
+              lingua: linguaMovie,
+              voto : numStelle
+             };
 
             var html = template(daInserire);
 
             $(".container").append(html);
+            //fine templating handlebars
 
 
 
@@ -60,10 +75,12 @@ $( document ).ready(function() {
 
       chiamata();
 
+
+
+
+
     }
   )
-
-
 
 
 
