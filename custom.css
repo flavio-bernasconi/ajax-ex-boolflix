@@ -6,10 +6,16 @@
 }
 .container{
   padding: 50px;
+  padding-top: 0;
 }
 
 .movieSingolo{
   margin-top: 50px;
 }
+.searchBar{
+  padding: 50px;
+  padding-bottom: 0;
+}
+
 
 /*  */
