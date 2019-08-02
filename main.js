@@ -27,7 +27,7 @@ $( document ).ready(function() {
           // console.log("oggetto response",response.results);
 
           for (var i = 0; i < response.results.length; i++) {
-            console.log("singolo film",response.results[i]);
+            // console.log("singolo film",response.results[i]);
 
             //creo variabili riferimento per handlebars
             var titoloMovie = response.results[i].title;
@@ -41,12 +41,11 @@ $( document ).ready(function() {
             //numero di stelle inserire
             var numStelle = Math.round(votoMovie / 2);
 
-            console.log("N stelle: ",numStelle);
+            // console.log("N stelle: ",numStelle);
 
-
-            //ogni ciclo lui mi appende qualcosa ma io vogli oappendarla per il numero pari al voto
-
-
+            //ogni ciclo lui mi appende qualcosa ma io voglio appendarla per il numero pari al voto;
+            //ma qui sono dentro al ciclo. una funzione(?) che appende per un per il numero di stelle
+            //non sembra funzionare mi ripete la funzione ogni ciclo
 
             //template handelbars
             var sorgenteCodice = $("#dataBase").html();
@@ -58,7 +57,8 @@ $( document ).ready(function() {
               titoloFilm: titoloMovie,
               titoloOriginale: titoloMovie,
               lingua: linguaMovie,
-              voto : numStelle
+              voto :  numStelle
+
              };
 
             var html = template(daInserire);
@@ -66,14 +66,30 @@ $( document ).ready(function() {
             $(".container").append(html);
             //fine templating handlebars
 
+          }//fine ciclo for oggetti
 
 
-          }
+          $(".rate").each(
+            function(){
+              var num = $(this).attr("data-numero");
+              for (var i = 0; i < num; i++) {
+                $(this).append('<i class="fa fa-star-o" aria-hidden="true"></i>')
+              }
+            }
+          )
+
+
+
+
+
+
 
         });
       }
 
       chiamata();
+
+
 
 
 
