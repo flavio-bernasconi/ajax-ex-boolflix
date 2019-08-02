@@ -47,7 +47,7 @@ $( document ).ready(function() {
 
             // console.log("N stelle: ",numStelle);
 
-            var urlImg = "https://image.tmdb.org/t/p/w185"+posterMovie;
+            var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
             console.log(urlImg);
 
 
@@ -129,8 +129,13 @@ $( document ).ready(function() {
 
             // console.log("N stelle: ",numStelle);
 
-            var urlImg = "https://image.tmdb.org/t/p/w185"+posterMovie;
-            console.log(urlImg);
+            var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
+            console.log(posterMovie);
+
+            if (posterMovie == null) {
+              var urlImg = "error.jpg"
+            }
+
 
 
             //template handelbars
