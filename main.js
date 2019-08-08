@@ -11,10 +11,12 @@ $( document ).ready(function() {
 
     var pagNum = "&page=" + inc;
     console.log("numero pagina",pagNum);
+    $(".page").text(inc);
+
+
 
     var urlMovie = "https://api.themoviedb.org/3/search/movie?api_key=085f025c352f6e30faea971db0667d31"+word+pagNum ;
 
-    console.log(urlMovie);
 
     var settings = {
       async: true,
@@ -29,8 +31,7 @@ $( document ).ready(function() {
     function chiamataFilm(){
       $.ajax(settings).done(function (response) {
         // console.log("oggetto response",response.results);
-        console.log("oggetto response",response);
-
+        console.log("oggetto response film",response);
 
 
         for (var i = 0; i < response.results.length; i++) {
@@ -42,6 +43,8 @@ $( document ).ready(function() {
           var titoloOriginaleMovie = response.results[i].original_title;
           var linguaMovie = response.results[i].original_language;
           var posterMovie = response.results[i].poster_path;
+          var popularity = response.results[i].popularity;
+
 
 
           //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
@@ -49,11 +52,25 @@ $( document ).ready(function() {
           votoMovie = response.results[i].vote_average;
           //numero di stelle inserire
           var numStelle = Math.round(votoMovie / 2);
-
           // console.log("N stelle: ",numStelle);
 
+          //fare funzione per non ripetersi
+          //trama
+          var tramaMovie = response.results[i].overview;
+          var incipit = tramaMovie.length;
+          console.log("lunghezza trama",incipit);
+          if (incipit > 60) {
+            tramaMovie = tramaMovie.slice(0, 80) + "...";
+          }
+
+
           var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
-          console.log(urlImg);
+
+          //fare funzione per non ripetersi
+          if (posterMovie == null) {
+            var urlImg = "error.jpg"
+          }
+
 
 
           //template handelbars
@@ -67,7 +84,9 @@ $( document ).ready(function() {
             titoloOriginale: titoloMovie,
             lingua: linguaMovie,
             voto :  numStelle,
-            poster : urlImg
+            poster : urlImg,
+            trama : tramaMovie,
+            popolarita : popularity
 
            };
 
@@ -81,16 +100,12 @@ $( document ).ready(function() {
         }//fine ciclo for oggetti
 
 
-        //per ogni span-voto prendo l attributo a cui ho assegnato il valore del voto preso dall api
-        //ciclo per il numero presente nell attributo e incollo n stelle
-        //LO FACCIO NELLA CHIAMTA DOPO COSI NON SI RIPETE
+
+      })
 
 
-          })
 
-          console.log("faccio una chiamata");
-
-
+          console.log("CHIAMATA FILM");
 
     }
 
@@ -112,9 +127,10 @@ $( document ).ready(function() {
       data: "{}"
     }
 
+
     function chiamataSerie(){
       $.ajax(settings).done(function (response) {
-        console.log("oggetto response",response.results);
+        console.log("oggetto response serie",response.results);
 
         for (var i = 0; i < response.results.length; i++) {
           // console.log("singolo film",response.results[i]);
@@ -125,6 +141,8 @@ $( document ).ready(function() {
           var titoloOriginaleMovie = response.results[i].original_title;
           var linguaMovie = response.results[i].original_language;
           var posterMovie = response.results[i].poster_path;
+          var popularity = response.results[i].popularity;
+
 
           //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
           //per ogni film
@@ -132,16 +150,22 @@ $( document ).ready(function() {
           //numero di stelle inserire
           var numStelle = Math.round(votoMovie / 2);
 
-          // console.log("N stelle: ",numStelle);
+          //fare funzione per non ripetersi
+          //trama
+          var tramaMovie = response.results[i].overview;
+          var incipit = tramaMovie.length;
+          console.log("lunghezza trama",incipit);
+          if (incipit > 60) {
+            tramaMovie = tramaMovie.slice(0, 80) + "...";
+          }
 
+          //fare funzione per non ripetersi
           var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
-          console.log(posterMovie);
 
+          //fare funzione per non ripetersi
           if (posterMovie == null) {
             var urlImg = "error.jpg"
           }
-
-
 
           //template handelbars
           var sorgenteCodice = $("#dataBase").html();
@@ -154,7 +178,9 @@ $( document ).ready(function() {
             titoloOriginale: titoloMovie,
             lingua: linguaMovie,
             voto :  numStelle,
-            poster : urlImg
+            poster : urlImg,
+            trama : tramaMovie,
+            popolarita : popularity
 
            };
 
@@ -164,9 +190,7 @@ $( document ).ready(function() {
           //fine templating handlebars
 
 
-
         }//fine ciclo for oggetti
-
 
         //per ogni span-voto prendo l attributo a cui ho assegnato il valore del voto preso dall api
         //ciclo per il numero presente nell attributo e incollo n stelle
@@ -212,10 +236,9 @@ $( document ).ready(function() {
                 $(this).html("boooooh")
             }
 
-
           })
 
-          console.log("faccio una chiamata");
+          console.log(" fine CHIAMATA SERIE");
 
 
       });
@@ -236,6 +259,7 @@ $( document ).ready(function() {
 
   $(".btn-search").click(
     function(){
+      inc = 1;
       tutto()
     }
   )
@@ -245,12 +269,13 @@ $( document ).ready(function() {
 
     var tasto = e.which;
     if (tasto == 13) {
+      inc = 1;
       tutto()
       }
     })
 
 
-    $(".next").click(
+  $(".next").click(
       function(){
         inc = inc+1;
         $(".container").empty();
@@ -258,7 +283,7 @@ $( document ).ready(function() {
       }
     )
 
-    $(".prev").click(
+  $(".prev").click(
       function(){
         if (inc > 1) {
           inc = inc-1;
@@ -268,6 +293,121 @@ $( document ).ready(function() {
 
       }
     )
+
+
+ var intro = "https://api.themoviedb.org/3/movie/popular?api_key=085f025c352f6e30faea971db0667d31";
+
+    var settings = {
+      async: true,
+      crossDomain: true,
+      url: intro,
+      method: "GET",
+      headers: {},
+      data: "{}"
+    }
+
+
+    function entrata(){
+      $.ajax(settings).done(function (response) {
+
+              console.log("popolari",response.results);
+
+
+              for (var i = 0; i < response.results.length; i++) {
+                // console.log("singolo film",response.results[i]);
+
+                //creo variabili riferimento per handlebars
+                var titoloSerie = response.results[i].name;
+                var titoloMovie = response.results[i].original_name;
+                var titoloOriginaleMovie = response.results[i].original_title;
+                var linguaMovie = response.results[i].original_language;
+                var posterMovie = response.results[i].poster_path;
+                var popularity = response.results[i].popularity;
+
+
+                //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
+                //per ogni film
+                votoMovie = response.results[i].vote_average;
+                //numero di stelle inserire
+                var numStelle = Math.round(votoMovie / 2);
+
+                //fare funzione per non ripetersi
+                //trama
+                var tramaMovie = response.results[i].overview;
+                var incipit = tramaMovie.length;
+                console.log("lunghezza trama",incipit);
+                if (incipit > 60) {
+                  tramaMovie = tramaMovie.slice(0, 80) + "...";
+                }
+
+                //fare funzione per non ripetersi
+                var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
+
+                //fare funzione per non ripetersi
+                if (posterMovie == null) {
+                  var urlImg = "error.jpg"
+                }
+
+                //template handelbars
+                var sorgenteCodice = $("#iniziale").html();
+
+                var template = Handlebars.compile(sorgenteCodice);
+
+                //richiamo le variabili definite
+                var daInserire = {
+                  titoloFilm: titoloSerie,
+                  titoloOriginale: titoloMovie,
+                  lingua: linguaMovie,
+                  voto :  numStelle,
+                  poster : urlImg,
+                  trama : tramaMovie,
+                  popolarita : popularity
+
+                 };
+
+                var html = template(daInserire);
+
+                $(".carousel ul").append(html);
+                //fine templating handlebars
+
+
+              }//fine ciclo for oggetti
+
+
+
+      }
+
+    )}
+
+
+    entrata();
+
+    var margine = 0;
+
+    $(".caroNext").click(
+      function(){
+      margine = margine + 350;
+       var x = $(".orizzonatale");
+          x.scrollLeft( margine )
+      }
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
