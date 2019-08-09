@@ -28,9 +28,10 @@ body{
   padding-top: 50px;
 }
 
-.momento{
+.orizzonatale h2{
   color: white;
-  margin-bottom: 20px;
+  font-size: 30px;
+  margin-bottom: 40px;
   font-weight: 400;
 }
 

@@ -7,6 +7,7 @@ $( document ).ready(function() {
 
   $(".filtri-bar").hide();
 
+  //filtra per genere
   function filtra(){
     $(".filtro").click(
       function(){
@@ -33,7 +34,7 @@ $( document ).ready(function() {
         }
       )}
 
-
+  //funzione che richiama fil e serie tv
   function tutto(){
     var valore = $(".cerca").val();
 
@@ -223,7 +224,7 @@ $( document ).ready(function() {
         //ciclo per il numero presente nell attributo e incollo n stelle
         //
 
-        //stelle icone
+        //stelle icone punteggio valutazione
         $(".rate").each(
           function(){
             var num = $(this).attr("data-numero");
@@ -240,6 +241,7 @@ $( document ).ready(function() {
           }
         )
 
+        //lingua film con bandiera relativa
         $(".lang").each(
           function(){
             var linguaggio = $(this).attr("data-lingua");
@@ -278,8 +280,8 @@ $( document ).ready(function() {
 
     chiamataSerie();
 
-
-    $("a.hide").removeClass("hide")
+    //nascondo i bottoni next e prev pagine
+    $("a.hide").removeClass("hide");
 
 
     // pulisco il campo dell input
@@ -290,34 +292,39 @@ $( document ).ready(function() {
   }
 
 
-  $(".btn-search").click(
-    function(){
-      inc = 1;
-      $(".orizzonatale").hide();
-      $(".filtri-bar").show();
-      $("a.attivo").removeClass("attivo");
-      $("a.all").addClass("attivo");
 
-      tutto()
+  function cerca(){
+    //punto di partenza delle pagine (pag1)
+    inc = 1;
+    //nascondo lo slider
+    $(".orizzonatale").hide();
+    //faccio vedere i filtri
+    $(".filtri-bar").show();
+    //tolgo a tutti i btn filtri la classe attivo
+    $("a.attivo").removeClass("attivo");
+    //e la metto a il bottone tutti
+    $("a.all").addClass("attivo");
+    //poi faccio la chiamta
+    tutto()
+  }
+
+  //qunado schiaccio su btn search
+  $(".btn-search").click(
+    function (){
+      cerca()
     }
   )
 
-
   $('input').keydown(function(e){
-
     var tasto = e.which;
     if (tasto == 13) {
-      inc = 1;
-      $(".orizzonatale").hide();
-      $(".filtri-bar").show();
-      $("a.attivo").removeClass("attivo");
-      $("a.all").addClass("attivo");
-
-      tutto()
+        cerca()
       }
     })
 
 
+
+  //bottoni per cambiare pagina
   $(".next").click(
       function(){
         inc = inc+1;
@@ -340,7 +347,7 @@ $( document ).ready(function() {
 
 
 
-
+//home-page slider prendo i film popolari
  var intro = "https://api.themoviedb.org/3/movie/popular?api_key=085f025c352f6e30faea971db0667d31";
 
     var settings = {
@@ -368,10 +375,8 @@ $( document ).ready(function() {
                 var posterMovie = response.results[i].poster_path;
 
 
-                //fare funzione per non ripetersi
                 var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
 
-                //fare funzione per non ripetersi
                 if (posterMovie == null) {
                   var urlImg = "error.jpg"
                 }
@@ -400,15 +405,18 @@ $( document ).ready(function() {
 
     )}
 
-
+    //creo slider homa page
     entrata();
 
-
+    //riferimento per slider home
     var margine = 0;
 
+    //quando clicco sul logo
     $(".ricarica").click(
       function(){
+        //nascondo i filtri
         $(".filtri-bar").hide();
+        //posiziono lo slider a 0
         margine = 0;
         //input search
         $(".out").hide();
@@ -425,6 +433,7 @@ $( document ).ready(function() {
     )
 
 
+    //responsive slider
     var x = $(".pop .carousel");
 
     var finestra = 0;
@@ -439,7 +448,7 @@ $( document ).ready(function() {
       finestra = 6157;
     }
 
-    //funzionano
+    //tasti slider next prev
     $(".pop .caroNext").click(
       function(){
       $(".caroPrev").show();
@@ -467,9 +476,7 @@ $( document ).ready(function() {
               $(this).hide();
           }
         }
-
     );
-
 
     if (margine == 0) {
       $(".pop .caroPrev").hide();
@@ -477,22 +484,22 @@ $( document ).ready(function() {
 
 
 
+    //input search nascosto 
+    $(".apri").click(
+      function chiudiSearch(){
+        if ($(this).hasClass("aperto")) {
+          $(".out").hide();
+          $(".lente").show();
+          $(this).removeClass("aperto");
 
-$(".apri").click(
-  function chiudiSearch(){
-    if ($(this).hasClass("aperto")) {
-      $(".out").hide();
-      $(".lente").show();
-      $(this).removeClass("aperto");
-
-    }
-    else {
-      $(".out").show(200);
-      $(".lente").hide("fast");
-      $(this).addClass("aperto");
-    }
-  }
-)
+        }
+        else {
+          $(".out").show(200);
+          $(".lente").hide("fast");
+          $(this).addClass("aperto");
+        }
+      }
+    )
 
 
 
