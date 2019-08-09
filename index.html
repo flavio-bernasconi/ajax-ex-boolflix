@@ -2,7 +2,10 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <title>Netflics</title>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
@@ -18,39 +21,55 @@
 
       <div class="searchBar">
         <div class="">
-          <input type="text" class="cerca" />
-          <button type="button" class="btn-search">Search</button>
+          <a href="#" class="ricarica">
+            <img src="logo.png" alt="" width="70px">
+          </a>
         </div>
         <div class="">
-          <button type="button" class="prev">prev</button>
-          <button type="button" class="next">next</button>
-          <span class="page"></span>
+          <a href="#" class="apri">
+            <i class="fa fa-search lente" aria-hidden="true"></i>
+            <i class="fa fa-times out" aria-hidden="true"></i>
+          </a>
+            <input type="text" class="cerca out" />
+            <button type="button" class="btn-search out">Search</button>
         </div>
-
-      </div>
-
-      <h1 style="color: white">popolari</h1>
-      <div class="container">
-
-
-
       </div>
 
 
+      <div class="filtri-bar">
+        <a href="#" class="filtro attivo all" data-id="tutti">Tutti</a>
+        <a href="#" class="filtro" data-id="28">Action</a>
+        <a href="#" class="filtro" data-id="12">Adventure</a>
+        <a href="#" class="filtro" data-id="16">Animation</a>
+        <a href="#" class="filtro" data-id="80">Crime</a>
+        <a href="#" class="filtro" data-id="35">Comedy</a>
+        <a href="#" class="filtro" data-id="9648">Mystery</a>
+      </div>
 
-      <div class="orizzonatale">
-        <div class="carousel">
+
+      <div class="paginaRisultati">
+
+        <div class="container">
+          <!-- DOVE INCOLLO I RISULTATI DELLA RICCERCA -->
+        </div>
+        <a class="btn-ris next hide"><span>Next</span></a>
+        <a class="btn-ris prev hide"><span>Prev</span></a>
+        <span class="page"></span>
+      </div>
+
+
+
+      <div class="orizzonatale pop">
+        <h1 class="momento">Titoli del momento</h1>
+        <div class="carousel" id="caro">
           <ul>
 
           </ul>
         </div>
+        <a class="btn-caro caroNext"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        <a class="btn-caro caroPrev"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
       </div>
 
-
-      <button type="button" class="caroNext">carosello next</button>
-
-
-      <!-- <i class="fa fa-star-o" aria-hidden="true"></i> -->
 
 
 
@@ -60,12 +79,13 @@
           <img class="img-film" src='{{poster}}'>
           <div class="overlay">
             <div class="dettagli">
-              <p>Titolo : <span> {{titoloFilm}}</span></p>
-              <p>Titolo originale : <span>{{titoloOriginale}}</span></p>
-              <p>Lingua : <span class="lang" data-lingua='{{lingua}}'></span></p>
-              <p>Voto: <span class="rate" data-numero='{{voto}}'></span></p>
-              <p>{{trama}}</p>
-              <p>{{popolarita}}</p>
+              <!-- <p>Titolo</p> -->
+              <h3 class="title">{{titoloFilm}}</h3>
+              <p><span>{{titoloOriginale}}</span></p>
+              <p><span class="lang" data-lingua='{{lingua}}'></span></p>
+              <p><span class="rate" data-numero='{{voto}}'></span></p>
+              <p class="sinossi">{{trama}}</p>
+              <p class="genere" data-genere="{{popolarita}}">{{popolarita}}</p>
             </div>
           </div>
         </div>
@@ -74,7 +94,14 @@
 
       <script id="iniziale" type="text/x-handlebars-template">
         <li>
-          <img class="" src='{{poster}}'>
+            <div class='movieSingolo'>
+                <img class="img-film" src='{{poster}}'>
+                <div class="overlay">
+                  <div class="dettagli">
+                    <p>{{titoloFilm}}</p>
+                  </div>
+                </div>
+            </div>
         </li>
       </script>
 

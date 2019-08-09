@@ -1,8 +1,38 @@
 $( document ).ready(function() {
 
+
   var inc = 1;
 
   var votoMovie = "";
+
+  $(".filtri-bar").hide();
+
+  function filtra(){
+    $(".filtro").click(
+      function(){
+        $(".filtro").removeClass("attivo");
+        $(this).addClass("attivo");
+        var genereScelto = $(this).attr("data-id");
+        console.log( genereScelto);
+        if (genereScelto == "tutti") {
+          $("div.movieSingolo").show();
+        }
+        else {
+          $(".genere").each(
+            function(){
+              $("div.movieSingolo").show();
+              //array di numeri corrispondenti ad un genere
+              var genere = $(this).attr("data-genere");
+              if (!genere.includes(genereScelto)) {
+                $(this).parent().closest('div.movieSingolo').hide(10); // this gets the parent classes.
+              }
+
+              }
+            )
+          }
+        }
+      )}
+
 
   function tutto(){
     var valore = $(".cerca").val();
@@ -43,7 +73,7 @@ $( document ).ready(function() {
           var titoloOriginaleMovie = response.results[i].original_title;
           var linguaMovie = response.results[i].original_language;
           var posterMovie = response.results[i].poster_path;
-          var popularity = response.results[i].popularity;
+          var genre = response.results[i].genre_ids;
 
 
 
@@ -81,12 +111,12 @@ $( document ).ready(function() {
           //richiamo le variabili definite
           var daInserire = {
             titoloFilm: titoloMovie,
-            titoloOriginale: titoloMovie,
+            titoloOriginale: titoloOriginaleMovie,
             lingua: linguaMovie,
             voto :  numStelle,
             poster : urlImg,
             trama : tramaMovie,
-            popolarita : popularity
+            popolarita : genre
 
            };
 
@@ -95,17 +125,14 @@ $( document ).ready(function() {
           $(".container").append(html);
           //fine templating handlebars
 
-
-
         }//fine ciclo for oggetti
-
-
 
       })
 
+      // filtra();
 
 
-          console.log("CHIAMATA FILM");
+      console.log("CHIAMATA FILM");
 
     }
 
@@ -116,7 +143,7 @@ $( document ).ready(function() {
 
 
     //SERIEEEEEEEE
-    var urlSerie = "https://api.themoviedb.org/3/search/tv?api_key=085f025c352f6e30faea971db0667d31"+word ;
+    var urlSerie = "https://api.themoviedb.org/3/search/tv?api_key=085f025c352f6e30faea971db0667d31"+word+pagNum ;
 
     var settings = {
       async: true,
@@ -130,7 +157,7 @@ $( document ).ready(function() {
 
     function chiamataSerie(){
       $.ajax(settings).done(function (response) {
-        console.log("oggetto response serie",response.results);
+        console.log("oggetto response serie",response);
 
         for (var i = 0; i < response.results.length; i++) {
           // console.log("singolo film",response.results[i]);
@@ -141,7 +168,7 @@ $( document ).ready(function() {
           var titoloOriginaleMovie = response.results[i].original_title;
           var linguaMovie = response.results[i].original_language;
           var posterMovie = response.results[i].poster_path;
-          var popularity = response.results[i].popularity;
+          var genre = response.results[i].genre_ids;
 
 
           //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
@@ -154,7 +181,6 @@ $( document ).ready(function() {
           //trama
           var tramaMovie = response.results[i].overview;
           var incipit = tramaMovie.length;
-          console.log("lunghezza trama",incipit);
           if (incipit > 60) {
             tramaMovie = tramaMovie.slice(0, 80) + "...";
           }
@@ -175,12 +201,12 @@ $( document ).ready(function() {
           //richiamo le variabili definite
           var daInserire = {
             titoloFilm: titoloSerie,
-            titoloOriginale: titoloMovie,
+            titoloOriginale: titoloOriginaleMovie,
             lingua: linguaMovie,
             voto :  numStelle,
             poster : urlImg,
             trama : tramaMovie,
-            popolarita : popularity
+            popolarita : genre
 
            };
 
@@ -190,12 +216,14 @@ $( document ).ready(function() {
           //fine templating handlebars
 
 
+
         }//fine ciclo for oggetti
 
         //per ogni span-voto prendo l attributo a cui ho assegnato il valore del voto preso dall api
         //ciclo per il numero presente nell attributo e incollo n stelle
         //
 
+        //stelle icone
         $(".rate").each(
           function(){
             var num = $(this).attr("data-numero");
@@ -235,8 +263,11 @@ $( document ).ready(function() {
               default:
                 $(this).html("boooooh")
             }
-
           })
+
+
+          filtra();
+
 
           console.log(" fine CHIAMATA SERIE");
 
@@ -248,11 +279,13 @@ $( document ).ready(function() {
     chiamataSerie();
 
 
+    $("a.hide").removeClass("hide")
+
+
     // pulisco il campo dell input
     // $(".cerca").val("");
     //pulisco il contenitore quando rifaccio la chiamata non si accavallano il risultato vecchio con quello nuovo
     $(".container").empty();
-
 
   }
 
@@ -260,6 +293,11 @@ $( document ).ready(function() {
   $(".btn-search").click(
     function(){
       inc = 1;
+      $(".orizzonatale").hide();
+      $(".filtri-bar").show();
+      $("a.attivo").removeClass("attivo");
+      $("a.all").addClass("attivo");
+
       tutto()
     }
   )
@@ -270,6 +308,11 @@ $( document ).ready(function() {
     var tasto = e.which;
     if (tasto == 13) {
       inc = 1;
+      $(".orizzonatale").hide();
+      $(".filtri-bar").show();
+      $("a.attivo").removeClass("attivo");
+      $("a.all").addClass("attivo");
+
       tutto()
       }
     })
@@ -295,6 +338,9 @@ $( document ).ready(function() {
     )
 
 
+
+
+
  var intro = "https://api.themoviedb.org/3/movie/popular?api_key=085f025c352f6e30faea971db0667d31";
 
     var settings = {
@@ -312,33 +358,15 @@ $( document ).ready(function() {
 
               console.log("popolari",response.results);
 
-
               for (var i = 0; i < response.results.length; i++) {
                 // console.log("singolo film",response.results[i]);
 
                 //creo variabili riferimento per handlebars
                 var titoloSerie = response.results[i].name;
-                var titoloMovie = response.results[i].original_name;
-                var titoloOriginaleMovie = response.results[i].original_title;
-                var linguaMovie = response.results[i].original_language;
+                var titoloMovie = response.results[i].title;
+
                 var posterMovie = response.results[i].poster_path;
-                var popularity = response.results[i].popularity;
 
-
-                //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
-                //per ogni film
-                votoMovie = response.results[i].vote_average;
-                //numero di stelle inserire
-                var numStelle = Math.round(votoMovie / 2);
-
-                //fare funzione per non ripetersi
-                //trama
-                var tramaMovie = response.results[i].overview;
-                var incipit = tramaMovie.length;
-                console.log("lunghezza trama",incipit);
-                if (incipit > 60) {
-                  tramaMovie = tramaMovie.slice(0, 80) + "...";
-                }
 
                 //fare funzione per non ripetersi
                 var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
@@ -355,25 +383,18 @@ $( document ).ready(function() {
 
                 //richiamo le variabili definite
                 var daInserire = {
-                  titoloFilm: titoloSerie,
-                  titoloOriginale: titoloMovie,
-                  lingua: linguaMovie,
-                  voto :  numStelle,
+                  titoloFilm: titoloMovie,
                   poster : urlImg,
-                  trama : tramaMovie,
-                  popolarita : popularity
 
                  };
 
                 var html = template(daInserire);
 
-                $(".carousel ul").append(html);
+                $("#caro ul").append(html);
                 //fine templating handlebars
 
 
               }//fine ciclo for oggetti
-
-
 
       }
 
@@ -382,32 +403,96 @@ $( document ).ready(function() {
 
     entrata();
 
+
     var margine = 0;
 
-    $(".caroNext").click(
+    $(".ricarica").click(
       function(){
-      margine = margine + 350;
-       var x = $(".orizzonatale");
-          x.scrollLeft( margine )
+        $(".filtri-bar").hide();
+        margine = 0;
+        //input search
+        $(".out").hide();
+        $(".lente").show();
+        //pulisco input
+        $(".cerca").val("");
+        $(".container").empty();
+        //svuoto lo slider altrimenti mi mette due volte i film
+        $(".carousel ul").empty();
+        $(".orizzonatale").show();
+        $(".btn-ris").addClass("hide");
+        entrata()
       }
     )
 
 
+    var x = $(".pop .carousel");
+
+    var finestra = 0;
+    var width = $(window).width();
+    if (width > 1400) {
+      finestra = 5473;
+    }
+    if (width < 1400) {
+      finestra = 5815;
+    }
+    if (width < 1100) {
+      finestra = 6157;
+    }
+
+    //funzionano
+    $(".pop .caroNext").click(
+      function(){
+      $(".caroPrev").show();
+
+      margine = margine + 342;
+      if (margine < finestra) {
+        x.animate({scrollLeft: margine}, 700);
+        console.log(margine);
+        }
+        if (margine == finestra-1) {
+          $(".caroNext").hide();
+        }
+      }
+    )
+
+
+    $(".pop .caroPrev").click(
+      function(){
+        $(".caroNext").show();
+        if (margine > 0) {
+          margine = margine - 342;
+            x.animate({scrollLeft: margine}, 700);
+          }
+          if (margine < 342) {
+              $(this).hide();
+          }
+        }
+
+    );
+
+
+    if (margine == 0) {
+      $(".pop .caroPrev").hide();
+    }
 
 
 
 
+$(".apri").click(
+  function chiudiSearch(){
+    if ($(this).hasClass("aperto")) {
+      $(".out").hide();
+      $(".lente").show();
+      $(this).removeClass("aperto");
 
-
-
-
-
-
-
-
-
-
-
+    }
+    else {
+      $(".out").show(200);
+      $(".lente").hide("fast");
+      $(this).addClass("aperto");
+    }
+  }
+)
 
 
 
