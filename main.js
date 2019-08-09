@@ -99,7 +99,7 @@ $( document ).ready(function() {
 
           //fare funzione per non ripetersi
           if (posterMovie == null) {
-            var urlImg = "error.jpg"
+            var urlImg = "errore.jpg"
           }
 
 
@@ -484,7 +484,7 @@ $( document ).ready(function() {
 
 
 
-    //input search nascosto 
+    //input search nascosto
     $(".apri").click(
       function chiudiSearch(){
         if ($(this).hasClass("aperto")) {
