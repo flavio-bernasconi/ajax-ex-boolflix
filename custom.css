@@ -11,6 +11,7 @@ html {
 }
 body{
   background: rgb(35, 35, 35);
+  padding-bottom: 60px;
 }
 .contenitoreHome{
   margin: auto;
@@ -230,13 +231,11 @@ a.attivo{
   cursor: pointer;
 }
 
-.discoverContainer .caroPrev{
+.caroPrev{
   left: 2%;
 }
 
-.pop .caroPrev{
-  left: 25%;
-}
+
 
 .caroNext{
   right: 2%;;
@@ -381,6 +380,106 @@ a.attivo{
 
 
 
+.relativo{
+  position: relative;
+  margin-top: 90px;
+}
+
+.relativo .movieSingolo{
+  display: flex;
+}
+
+.filmSingolo{
+  width: 342px;
+  display: flex;
+}
+.schedaFilm{
+  display: none;
+  width: 0;
+  height: 513px;
+  background: rgb(0, 0, 0);
+  margin-left: 342px;
+  padding: 40px;
+  color: white;
+}
+
+.schedaFilm .title{
+  opacity: 0;
+  font-size: 3rem;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  animation-name: opacita;
+  animation-delay: 0.5s;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+}
+.schedaFilm .play{
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+  font-size: 20px;
+  font-weight: 300;
+  text-decoration: none;
+  color: red;
+  opacity: 0;
+  animation-name: opacita;
+  animation-delay:1.4s;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+
+}
+.play i{
+  ]color: red;
+  margin-right: 20px;
+  font-size: 3rem;
+}
+
+
+.vedi{
+  display: block;
+  position: absolute;
+  left: 0;
+  animation-name: example;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes example {
+  from {  width: 0;}
+  to {width: 70vw;}
+}
+
+.sintesi{
+  width: 65%;
+  opacity: 0;
+  font-size: 20px;
+  line-height: 2rem;
+  letter-spacing: 1px;
+  font-weight: lighter;
+  animation-name: opacita;
+  animation-delay: 0.9s;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+
+
+}
+@-webkit-keyframes opacita {
+  0% : {  opacity: 0;}
+  50% {  opacity: 0.5;}
+  100% {opacity: 1;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -388,8 +487,6 @@ a.attivo{
 
 
 @media only screen and (max-width: 1500px) {
-
-
 
   .small-box{
     width: 100%;
@@ -405,12 +502,13 @@ a.attivo{
     width:100%;
     margin: auto;
     margin-bottom: 80px;
-
-
   }
 
 
 }
+
+
+
 
 
 @media only screen and (max-width: 1200px) {

@@ -128,7 +128,19 @@
       </div>
 
 
+      <div class="relativo">
+        <div class="filmSingolo">
 
+        </div>
+      </div>
+
+
+
+
+
+
+
+    <!-- fine contenitore supremo -->
     </div>
 
 
@@ -195,6 +207,27 @@
                   </div>
                 </div>
             </div>
+      </script>
+
+
+
+
+      <script id="scheda" type="text/x-handlebars-template">
+        <div class='movieSingolo'>
+          <img class="img-film" src='{{poster}}'>
+          <div class="overlay">
+            <div class="dettagli">
+              <!-- <p>Titolo</p> -->
+              <h3 class="title">{{titoloFilm}}</h3>
+            </div>
+          </div>
+          <div class="schedaFilm">
+            <h3 class="title">{{titoloFilm}}</h3>
+            <p class="sintesi" >{{trama}}</p>
+            <p class="casting">{{crew}}</p>
+            <a href="#" class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
+          </div>
+        </div>
       </script>
 
 

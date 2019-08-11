@@ -4,6 +4,98 @@ $( document ).ready(function() {
 
   var votoMovie = "";
 
+  //id del film
+  var id = 384018;
+
+  var settings = {
+    async: true,
+    crossDomain: true,
+    url: urlSingolo,
+    method: "GET",
+    headers: {},
+    data: "{}"
+  }
+
+
+
+  //film singolo con scheda al click
+  var urlSingolo = "http://api.themoviedb.org/3/movie/"+ id +"?api_key=085f025c352f6e30faea971db0667d31";
+
+    var settings = {
+      async: true,
+      crossDomain: true,
+      url: urlSingolo,
+      method: "GET",
+      headers: {},
+      data: "{}"
+    }
+
+    function chiamataSingolo(){
+      $.ajax(settings).done(function (response) {
+        // console.log("oggetto response",response.results);
+        console.log("oggetto singolo film",response);
+
+        for (var i = 0; i < 1; i++) {
+          // console.log("singolo film",response.results[i]);
+
+          //creo variabili riferimento per handlebars
+          var titoloMovie = response.title;
+          var titoloMovie = response.original_title;
+          var titoloOriginaleMovie = response.original_title;
+          var linguaMovie = response.original_language;
+          var posterMovie = response.poster_path;
+          var genre = response.genre_ids;
+
+          //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
+          //per ogni film
+          votoMovie = response.vote_average;
+          //numero di stelle inserire
+          var numStelle = Math.round(votoMovie / 2);
+          // console.log("N stelle: ",numStelle);
+
+          //fare funzione per non ripetersi
+          //trama
+          var tramaMovie = response.overview;
+
+
+          var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
+
+          //fare funzione per non ripetersi
+          if (posterMovie == null) {
+            var urlImg = "errore.jpg"
+          }
+
+          //template handelbars
+          var sorgenteCodice = $("#scheda").html();
+
+          var template = Handlebars.compile(sorgenteCodice);
+
+          //richiamo le variabili definite
+          var daInserire = {
+            titoloFilm: titoloMovie,
+            titoloOriginale: titoloOriginaleMovie,
+            lingua: linguaMovie,
+            voto :  numStelle,
+            poster : urlImg,
+            trama : tramaMovie,
+            popolarita : genre
+
+           };
+
+          var html = template(daInserire);
+
+          $(".filmSingolo").append(html);
+          //fine templating handlebars
+
+        }//fine ciclo for oggetti
+        console.log("singolo movie film ffff");
+
+      })
+
+    }
+
+    //facciola la chiamata film singolo
+    chiamataSingolo()
 
   //nuovi film new movie
   var scopri = "https://api.themoviedb.org/3/discover/movie?api_key=085f025c352f6e30faea971db0667d31&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
@@ -120,9 +212,9 @@ $( document ).ready(function() {
         //creo variabili riferimento per handlebars
         var titoloSerie = response.results[i].name;
 
-        var posterMovie = response.results[i].poster_path;
+        var posterMovie = response.results[i].backdrop_path;
 
-        var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
+        var urlImg = "https://image.tmdb.org/t/p/w500"+posterMovie;
 
         if (posterMovie == null) {
           var urlImg = "errore.jpg"
@@ -444,7 +536,8 @@ $( document ).ready(function() {
     //punto di partenza delle pagine (pag1)
     inc = 1;
     //nascondo lo slider
-    $(".orizzonatale").hide();
+    //quando cerco li nascondo tutti quando ricarico la home li faccio vedere
+    $(".orizzonatale,.discoverContainer,.moda").hide();
     //faccio vedere i filtri
     // $(".filtri-bar").show();
     //tolgo a tutti i btn filtri la classe attivo
@@ -461,14 +554,14 @@ $( document ).ready(function() {
   //qunado schiaccio su btn search
   $(".btn-search").click(
     function (){
-      cerca()
+      cerca();
     }
   )
 
   $('input').keydown(function(e){
     var tasto = e.which;
     if (tasto == 13) {
-        cerca()
+      cerca()
       }
     })
 
@@ -581,8 +674,10 @@ $( document ).ready(function() {
         $(".container").empty();
         //svuoto lo slider altrimenti mi mette due volte i film
         $("#caro ul").empty();
-        $(".orizzonatale").show();
+        //quando cerco li nascondo tutti quando ricarico la home li faccio vedere
+        $(".orizzonatale,.discoverContainer,.moda").show();
         $(".btn-ris").addClass("hide");
+        discover();
         entrata();
 
 
@@ -734,6 +829,56 @@ $( document ).ready(function() {
     if (margine2 == 0) {
       $(".discoverContainer .caroPrev").hide();
     }
+
+
+
+    var siVede = true;
+
+    //apri scheda del film singolo
+    $( "body" ).on( "click", '.filmSingolo > .movieSingolo' , function(e) {
+        //prevents from scrolling to top behavior
+        e.preventDefault();
+        $(this).find(".schedaFilm").toggleClass("vedi");
+        if (siVede == true) {
+          $(this).find(".overlay").hide();
+          siVede = false;
+        }
+        else{
+          $(this).find(".overlay").show();
+          siVede = true;
+        }
+
+        // console.log(siVede);
+      }
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
