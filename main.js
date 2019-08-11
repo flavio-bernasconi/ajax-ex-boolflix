@@ -1,11 +1,160 @@
 $( document ).ready(function() {
 
-
   var inc = 1;
 
   var votoMovie = "";
 
-  $(".filtri-bar").hide();
+
+  //nuovi film new movie
+  var scopri = "https://api.themoviedb.org/3/discover/movie?api_key=085f025c352f6e30faea971db0667d31&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
+
+    var settings = {
+      async: true,
+      crossDomain: true,
+      url: scopri,
+      method: "GET",
+      headers: {},
+      data: "{}"
+    }
+
+    function discover(){
+      $.ajax(settings).done(function (response) {
+
+              console.log("scopri",response.results);
+
+              for (var i = 0; i < response.results.length; i++) {
+                // console.log("singolo film",response.results[i]);
+
+                //creo variabili riferimento per handlebars
+                var titoloMovie = response.results[i].title;
+
+                var posterMovie = response.results[i].poster_path;
+
+                var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
+
+                if (posterMovie == null) {
+                  var urlImg = "errore.jpg"
+                }
+
+                //template handelbars
+                var sorgenteCodice = $("#discovery").html();
+
+                var template = Handlebars.compile(sorgenteCodice);
+
+                //richiamo le variabili definite
+                var daInserire = {
+                  titoloFilm: titoloMovie,
+                  poster : urlImg,
+
+                 };
+
+                var html = template(daInserire);
+
+                $("#discoverSlider ul").append(html);
+                //fine templating handlebars
+
+              }//fine ciclo for oggetti
+      }
+
+    )}
+
+    discover()
+
+
+  //cast film
+  // var urlCast = "http://api.themoviedb.org/3/movie/384018/casts?api_key=085f025c352f6e30faea971db0667d31"
+  //
+  // var settings = {
+  //     async: true,
+  //     crossDomain: true,
+  //     url: urlCast,
+  //     method: "GET",
+  //     headers: {},
+  //     data: "{}"
+  //   }
+  //
+  // function getCast(){
+  //     $.ajax(settings).done(function (response) {
+  //       console.log("cast",response.cast);
+  //
+  //       for (var i = 0; i < response.cast.length; i++) {
+  //         if (i<5) {
+  //           console.log(response.cast[i].name);
+  //         }
+  //         else {
+  //           break
+  //         }
+  //       }//fine ciclo
+  //
+  //     })
+  //   }
+  //
+  // getCast();
+
+
+
+
+  var urlTrend = "https://api.themoviedb.org/3/trending/tv/day?api_key=085f025c352f6e30faea971db0667d31";
+
+  //setting chiamta trend
+  var settings = {
+    async: true,
+    crossDomain: true,
+    url: urlTrend,
+    method: "GET",
+    headers: {},
+    data: "{}"
+  }
+
+  //aggiungo le serie tv trend della settimana
+  //devo mettere la funzione qui se la metto dopo ricarica
+  //nel carosello vedo le serie tv
+  function trend(){
+    $.ajax(settings).done(function (response) {
+      console.log("trend",response.results);
+
+
+      for (var i = 0; i < 7; i++) {
+        // console.log("singolo film",response.results[i]);
+
+        //creo variabili riferimento per handlebars
+        var titoloSerie = response.results[i].name;
+
+        var posterMovie = response.results[i].poster_path;
+
+        var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
+
+        if (posterMovie == null) {
+          var urlImg = "errore.jpg"
+        }
+
+        //template handelbars
+        var sorgenteCodice = $("#trending").html();
+
+        var template = Handlebars.compile(sorgenteCodice);
+
+        //richiamo le variabili definite
+        var daInserire = {
+          titoloSerie: titoloSerie,
+          poster : urlImg,
+
+         };
+
+        var html = template(daInserire);
+
+        $(".tren").append(html);
+        //fine templating handlebars
+
+
+      }//fine ciclo for oggetti
+
+
+    })
+  }
+
+  trend()
+
+  // $(".filtri-bar").hide();
 
   //filtra per genere
   function filtra(){
@@ -34,7 +183,7 @@ $( document ).ready(function() {
         }
       )}
 
-  //funzione che richiama fil e serie tv
+  //funzione che richiama film e serie tv
   function tutto(){
     var valore = $(".cerca").val();
 
@@ -45,9 +194,8 @@ $( document ).ready(function() {
     $(".page").text(inc);
 
 
-
+    //setting chiamta film
     var urlMovie = "https://api.themoviedb.org/3/search/movie?api_key=085f025c352f6e30faea971db0667d31"+word+pagNum ;
-
 
     var settings = {
       async: true,
@@ -57,6 +205,7 @@ $( document ).ready(function() {
       headers: {},
       data: "{}"
     }
+
 
 
     function chiamataFilm(){
@@ -89,7 +238,6 @@ $( document ).ready(function() {
           //trama
           var tramaMovie = response.results[i].overview;
           var incipit = tramaMovie.length;
-          console.log("lunghezza trama",incipit);
           if (incipit > 60) {
             tramaMovie = tramaMovie.slice(0, 80) + "...";
           }
@@ -141,9 +289,8 @@ $( document ).ready(function() {
     chiamataFilm();
 
 
-
-
     //SERIEEEEEEEE
+    //setting chiamta serie
     var urlSerie = "https://api.themoviedb.org/3/search/tv?api_key=085f025c352f6e30faea971db0667d31"+word+pagNum ;
 
     var settings = {
@@ -191,7 +338,7 @@ $( document ).ready(function() {
 
           //fare funzione per non ripetersi
           if (posterMovie == null) {
-            var urlImg = "error.jpg"
+            var urlImg = "errore.jpg"
           }
 
           //template handelbars
@@ -299,11 +446,14 @@ $( document ).ready(function() {
     //nascondo lo slider
     $(".orizzonatale").hide();
     //faccio vedere i filtri
-    $(".filtri-bar").show();
+    // $(".filtri-bar").show();
     //tolgo a tutti i btn filtri la classe attivo
     $("a.attivo").removeClass("attivo");
     //e la metto a il bottone tutti
     $("a.all").addClass("attivo");
+
+    $(".btnFiltri").show();
+
     //poi faccio la chiamta
     tutto()
   }
@@ -348,7 +498,8 @@ $( document ).ready(function() {
 
 
 //home-page slider prendo i film popolari
- var intro = "https://api.themoviedb.org/3/movie/popular?api_key=085f025c352f6e30faea971db0667d31";
+  //setting chiamta film popolari
+  var intro = "https://api.themoviedb.org/3/tv/popular?api_key=085f025c352f6e30faea971db0667d31";
 
     var settings = {
       async: true,
@@ -378,7 +529,7 @@ $( document ).ready(function() {
                 var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
 
                 if (posterMovie == null) {
-                  var urlImg = "error.jpg"
+                  var urlImg = "errore.jpg"
                 }
 
                 //template handelbars
@@ -388,7 +539,7 @@ $( document ).ready(function() {
 
                 //richiamo le variabili definite
                 var daInserire = {
-                  titoloFilm: titoloMovie,
+                  titoloFilm: titoloSerie,
                   poster : urlImg,
 
                  };
@@ -398,62 +549,71 @@ $( document ).ready(function() {
                 $("#caro ul").append(html);
                 //fine templating handlebars
 
-
               }//fine ciclo for oggetti
+
+
 
       }
 
     )}
 
     //creo slider homa page
+
     entrata();
 
     //riferimento per slider home
-    var margine = 0;
 
     //quando clicco sul logo
     $(".ricarica").click(
       function(){
         //nascondo i filtri
-        $(".filtri-bar").hide();
+        // $(".filtri-bar").hide();
         //posiziono lo slider a 0
         margine = 0;
         //input search
         $(".out").hide();
         $(".lente").show();
+        $(".filtri-bar").removeClass("filtraggio");
+        $(".btnFiltri").hide();
+        $("div.open").removeClass("open");
         //pulisco input
         $(".cerca").val("");
         $(".container").empty();
         //svuoto lo slider altrimenti mi mette due volte i film
-        $(".carousel ul").empty();
+        $("#caro ul").empty();
         $(".orizzonatale").show();
         $(".btn-ris").addClass("hide");
-        entrata()
+        entrata();
+
+
       }
     )
 
-
     //responsive slider
-    var x = $(".pop .carousel");
+    //carosello serie popolari
 
     var finestra = 0;
     var width = $(window).width();
-    if (width > 1400) {
+    if (width > 1500) {
       finestra = 5473;
     }
-    if (width < 1400) {
-      finestra = 5815;
+    if (width < 1500) {
+      finestra = 9001;
     }
     if (width < 1100) {
-      finestra = 6157;
+      finestra = 9501;
     }
 
     //tasti slider next prev
+    var x = $(".pop #caro");
+    var margine = 0;
+
+
     $(".pop .caroNext").click(
       function(){
-      $(".caroPrev").show();
+      $(".pop .caroPrev").show();
 
-      margine = margine + 342;
+      margine = margine + 684;
       if (margine < finestra) {
         x.animate({scrollLeft: margine}, 700);
         console.log(margine);
@@ -469,10 +629,10 @@ $( document ).ready(function() {
       function(){
         $(".caroNext").show();
         if (margine > 0) {
-          margine = margine - 342;
+          margine = margine - 684;
             x.animate({scrollLeft: margine}, 700);
           }
-          if (margine < 342) {
+          if (margine < 500) {
               $(this).hide();
           }
         }
@@ -491,15 +651,90 @@ $( document ).ready(function() {
           $(".out").hide();
           $(".lente").show();
           $(this).removeClass("aperto");
-
         }
         else {
           $(".out").show(200);
           $(".lente").hide("fast");
           $(this).addClass("aperto");
+          $("input.cerca").focus();
+
         }
       }
     )
+
+
+
+
+
+    $(".vediFiltri").click(
+      function(){
+        if ($(this).hasClass("open")) {
+          $(".filtri-bar").removeClass("filtraggio");
+          $(this).removeClass("open");
+        }
+        else{
+          $(this).addClass("open");
+          $(".filtri-bar").addClass("filtraggio");
+        }
+
+      }
+    )
+
+    //responsive slider
+    var vaiInla = "";
+
+    var finestra2 = 0;
+    var width = $(window).width();
+    if (width > 1500) {
+      finestra2 = 9001;
+      vaiInla = 684;
+    }
+    if (width < 1500) {
+      finestra2 = 14821;
+      vaiInla = 684;
+    }
+    if (width < 1100) {
+      finestra2 = 15601;
+      vaiInla = 342;
+    }
+
+    //tasti slider next prev carosello slider discover
+    var y = $(".discoverContainer #discoverSlider");
+    var margine2 = 0;
+
+    $(".discoverContainer .caroNext").click(
+      function(){
+      $(".discoverContainer .caroPrev").show();
+
+      margine2 = margine2 + vaiInla;
+      if (margine2 < finestra2) {
+        y.animate({scrollLeft: margine2}, 700);
+        console.log(margine2);
+        }
+        if (margine2 == finestra2-1) {
+          $(".caroNext").hide();
+        }
+      }
+    )
+
+
+    $(".discoverContainer .caroPrev").click(
+      function(){
+        $(".caroNext").show();
+        if (margine2 > 0) {
+          margine2 = margine2 - vaiInla;
+            y.animate({scrollLeft: margine2}, 700);
+          }
+          if (margine2 < vaiInla) {
+              $(this).hide();
+          }
+        }
+    );
+
+    if (margine2 == 0) {
+      $(".discoverContainer .caroPrev").hide();
+    }
+
 
 
 
