@@ -16,10 +16,11 @@ body{
 .contenitoreHome{
   margin: auto;
   padding-left: 70px;
+  margin-top: 80px;
 }
 
 .container{
-  padding: 50px;
+  /* padding: 50px; */
   padding-top: 0;
   display: flex;
   flex-wrap: wrap;
@@ -382,25 +383,63 @@ a.attivo{
 
 .relativo{
   position: relative;
-  margin-top: 90px;
+  margin-bottom: 90px;
 }
 
 .relativo .movieSingolo{
   display: flex;
+
 }
 
 .filmSingolo{
-  width: 342px;
+  width: 100%;
   display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
 }
+.filmSingolo .movieSingolo{
+  position: inherit;
+}
+
+
+
 .schedaFilm{
-  display: none;
   width: 0;
-  height: 513px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 543px;
+  min-height: 513px;
+  max-width: 1500px;
   background: rgb(0, 0, 0);
-  margin-left: 342px;
-  padding: 40px;
   color: white;
+  z-index: 100;
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  justify-content: space-between;
+}
+.schedaFilm .half{
+  opacity: 1;
+  padding: 40px;
+  max-width:45%;
+  min-width:150px;
+  background: black;
+  position: relative;
+}
+.schedaFilm .half:after{
+  content : "";
+  display: block;
+  position: absolute;
+  right: -38px;
+  top: 0;
+  width: 40px;
+  min-height: 100%;
+  background:linear-gradient(
+    to right,
+    black,
+    transparent
+  );
 }
 
 .schedaFilm .title{
@@ -408,11 +447,40 @@ a.attivo{
   font-size: 3rem;
   letter-spacing: 1px;
   margin-bottom: 30px;
-  animation-name: opacita;
-  animation-delay: 0.5s;
+  /* animation-name: opacita; */
+  animation-delay: 0.4s;
   animation-duration: .3s;
   animation-fill-mode: forwards;
 }
+.half .sintesi{
+  width: 75%;
+  opacity: 0;
+  font-size: 16px;
+  line-height: 2rem;
+  letter-spacing: 1px;
+  font-weight: normal;
+  /* animation-name: opacita; */
+  animation-delay: 0.7s;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+ white-space: normal;
+}
+.half .rate{
+  display: block;
+  opacity: 0;
+  /* animation-name: opacita; */
+  margin: 30px 0;
+  animation-delay: 1s;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+}
+.half .genere{
+  opacity: 0;
+  animation-delay: 1.3s;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+}
+
 .schedaFilm .play{
   display: flex;
   align-items: center;
@@ -422,47 +490,16 @@ a.attivo{
   text-decoration: none;
   color: red;
   opacity: 0;
-  animation-name: opacita;
-  animation-delay:1.4s;
+  /* animation-name: opacita; */
+  animation-delay:1.6s;
   animation-duration: .3s;
   animation-fill-mode: forwards;
 
 }
-.play i{
-  ]color: red;
-  margin-right: 20px;
-  font-size: 3rem;
-}
 
 
-.vedi{
-  display: block;
-  position: absolute;
-  left: 0;
-  animation-name: example;
-  animation-duration: .5s;
-  animation-fill-mode: forwards;
-}
-
-@-webkit-keyframes example {
-  from {  width: 0;}
-  to {width: 70vw;}
-}
-
-.sintesi{
-  width: 65%;
-  opacity: 0;
-  font-size: 20px;
-  line-height: 2rem;
-  letter-spacing: 1px;
-  font-weight: lighter;
-  animation-name: opacita;
-  animation-delay: 0.9s;
-  animation-duration: .3s;
-  animation-fill-mode: forwards;
 
 
-}
 @-webkit-keyframes opacita {
   0% : {  opacity: 0;}
   50% {  opacity: 0.5;}
@@ -474,10 +511,46 @@ a.attivo{
 
 
 
+.play i{
+  color: red;
+  margin-right: 20px;
+  font-size: 3rem;
+}
+
+.vedi{
+  display: none;
+  opacity: 0;
+  position: absolute;
+  transition:all 0.5s;
+}
+.active{
+  opacity: 1;
+  width: 90vw;
+}
 
 
 
 
+
+.videoFilm{
+position: relative;;
+height: 70vh;
+width: 100%;
+}
+
+/* .videoFilm {
+    position: relative;
+    padding-bottom: 56.25%; 16:9
+    padding-top: 25px;
+    height: 0;
+}
+.videoFilm iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+} */
 
 
 

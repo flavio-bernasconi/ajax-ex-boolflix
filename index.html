@@ -80,9 +80,47 @@
 
 
 
+      <!-- VIDEOOOOO -->
+        <div class="videoFilm">
+          <iframe class="video" width="100%" height="100%" src="" frameborder="0" webkitallowfullscreen mozallowfullscreen  allowfullscreen></iframe>
+        </div>
+
+
+
+
+
       <div class="contenitoreHome">
 
-      <div class=" discoverContainer">
+      <!-- CON SCHEDA FILM E SCROLL orizzonatale -->
+      <div class="relativo primo">
+        <div class="filmSingolo">
+
+        </div>
+      </div>
+
+      <div class="relativo secondo">
+        <div class="filmSingolo">
+
+        </div>
+      </div>
+
+
+      <!-- NO SCROLL ORIZZONTALE TRND   -->
+      <div class=" moda">
+        <div class="small-box">
+          <h2 class="big-title"><span>Trend</span> of the week</h2>
+          <a href="#" class="cta">Scopri di piu</a>
+        </div>
+        <div class="tren">
+
+        </div>
+      </div>
+
+
+
+      <!-- SLIDER CON TITOLO  -->
+      <!-- movie slider -->
+      <!-- <div class=" discoverContainer">
         <div class="text">
           <h2 class="big-title">New <span>Movie</span></h2>
         </div>
@@ -96,10 +134,6 @@
       </div>
 
 
-
-
-
-
       <div class="orizzonatale pop">
         <div class="text">
           <h2 class="big-title">Popular <span>Series</span></h2>
@@ -111,28 +145,7 @@
         </div>
         <a class="btn-caro caroNext"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
         <a class="btn-caro caroPrev"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-      </div>
-
-
-
-
-      <div class=" moda">
-        <div class="small-box">
-          <h2 class="big-title"><span>Trend</span> of the week</h2>
-          <a href="#" class="cta">Scopri di piu</a>
-        </div>
-
-        <div class="tren">
-
-        </div>
-      </div>
-
-
-      <div class="relativo">
-        <div class="filmSingolo">
-
-        </div>
-      </div>
+      </div> -->
 
 
 
@@ -214,18 +227,18 @@
 
       <script id="scheda" type="text/x-handlebars-template">
         <div class='movieSingolo'>
-          <img class="img-film" src='{{poster}}'>
-          <div class="overlay">
-            <div class="dettagli">
-              <!-- <p>Titolo</p> -->
+          <img class="img-film" src='{{poster}}' data-background="{{sfondo}}">
+          <div class="schedaFilm vedi">
+            <div class="half">
               <h3 class="title">{{titoloFilm}}</h3>
+              <p class="sintesi" >{{trama}}</p>
+              <span class="rate" data-numero='{{voto}}'></span>
+              <p class="genere" data-genere="{{gen}}">{{gen}}</p>
+              <span class="id-movie" data-id="{{riconoscimento}}"></span>
+              <a href="#" class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
             </div>
-          </div>
-          <div class="schedaFilm">
-            <h3 class="title">{{titoloFilm}}</h3>
-            <p class="sintesi" >{{trama}}</p>
-            <p class="casting">{{crew}}</p>
-            <a href="#" class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
+            <!-- <img class="img-film" src='{{poster}}'> -->
+
           </div>
         </div>
       </script>
