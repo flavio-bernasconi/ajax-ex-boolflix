@@ -418,12 +418,18 @@ a.attivo{
   background-position: right;
   background-size: contain;
   justify-content: space-between;
+  position: relative;
+}
+.full{
+  position: relative;
+  width: 100%;
 }
 .schedaFilm .half{
   opacity: 1;
   padding: 40px;
   max-width:45%;
   min-width:150px;
+  height: 100%;
   background: black;
   position: relative;
 }
@@ -529,9 +535,6 @@ a.attivo{
 }
 
 
-
-
-
 .videoFilm{
 position: relative;;
 height: 70vh;
@@ -551,6 +554,59 @@ width: 100%;
     width: 100%;
     height: 100%;
 } */
+
+
+.tab{
+  display: block;
+  position: absolute;
+  right: 0;
+  top:50px;
+  background: red;
+  padding: 10px;
+  z-index: 1000;
+}
+.chiudiScheda{
+  display: block;
+  position: absolute;
+  right: 0;
+  background: red;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.epiStag{
+  display: none;
+}
+
+.secondo .tab{
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
