@@ -565,31 +565,56 @@ width: 100%;
   padding: 10px;
   z-index: 1000;
 }
+.secondo .tab{
+  display: none;
+}
 .chiudiScheda{
   display: block;
   position: absolute;
   right: 0;
-  background: red;
+  background: black;
   padding: 10px;
   z-index: 1000;
+  border-bottom-left-radius: 25px;
+}
+.chiudiScheda:hover{
+  background: red
 }
 
-.epiStag{
+
+.corner{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: black;
+  display: flex;
+  min-width: 260px;
+  padding: 20px 30px;
+  justify-content: space-between;
+}
+.corner p{
+  font-size: 3rem;
+  color: red;
+  font-weight: lighter;
+  margin-top: 15px;
+}
+.corner h3{
+  font-weight: normal;
+}
+.corner .separe{
+  height: 100px;
+  width: 1px;
+  background: red;
+}
+.secondo .corner{
   display: none;
 }
 
-.secondo .tab{
-  display: none;
+.chiudiScheda i.fa{
+  display: block;
+  font-size: 1.2rem;
+  padding: 10px;
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -677,4 +702,34 @@ width: 100%;
 }
 
 
+
+
+
+
+
+
+/* per test tab scheda film */
+/* .epiStag{
+  display: none;
+  padding: 40px;
+}
+.epiStag h3{
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.epiStag p{
+  color: red;
+  font-weight: lighter;
+  font-size: 5rem;
+  margin-bottom: 40px;
+}
+.black{
+  background: black
+}
+.flexa{
+  display: flex;
+} */
 /*  */

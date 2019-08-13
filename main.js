@@ -523,7 +523,7 @@ $( document ).ready(function() {
     inc = 1;
     //nascondo lo slider
     //quando cerco li nascondo tutti quando ricarico la home li faccio vedere
-    $(".contenitoreHome").hide();
+    $(".contenitoreHome,.videoFilm").hide();
     //tolgo a tutti i btn filtri la classe attivo
     $("a.attivo").removeClass("attivo");
     //e la metto a il bottone tutti
@@ -549,14 +549,23 @@ $( document ).ready(function() {
       }
     })
 
+
+  $(".prev").hide();
+
   //bottoni per cambiare pagina
   $(".next").click(
       function(){
         inc = inc+1;
+        console.log(inc);
         $(".container").empty();
+
+        $(".prev").show();
+
         tutto()
       }
     )
+
+
 
   $(".prev").click(
       function(){
@@ -792,6 +801,7 @@ $( document ).ready(function() {
 
         $(".vedi").hide();
         //flex per poter aggiungere l immagine difiancoo non come sfondo
+        //ora vedo la scheda
         $(this).find(".vedi").css("display" ,"flex");
 
         var bk = $(this).find(".img-film").attr("data-background");
@@ -807,7 +817,9 @@ $( document ).ready(function() {
 
         //apri
         if ($(".schedaFilm").hasClass("active")) {
+          //opacizzo tutti film
           $(".relativo .movieSingolo").not(this).animate({opacity: 0.4}, 200);
+          //questo si vede all 100
           $(this).animate({opacity: 1}, 0);
 
         }
@@ -816,6 +828,17 @@ $( document ).ready(function() {
           $(".relativo .movieSingolo").animate({opacity: 1}, 200);
           //effetto di uscita quando riclicco sul film o su un altro
           $(".vedi").hide();
+        }
+
+        //se ho cliccato su chiudi quindo ho aggiunto la classe "chiudermi"
+        //nascondo la scheda e rimuovo la classe
+        if ($(".schedaFilm.active").hasClass("chiudermi")) {
+          //opacizzo tutti film
+          $(".relativo .movieSingolo").animate({opacity: 1}, 200);
+          //effetto di uscita quando riclicco sul film o su un altro
+          $(".vedi").hide();
+          $(".schedaFilm.active").removeClass("chiudermi");
+
         }
 
 
@@ -890,19 +913,21 @@ $( document ).ready(function() {
 
 
 
-
-  $( "body" ).on( "click", '.filmSingolo > .movieSingolo .tab' , function() {
-    $(".schedaFilm.active .half").toggle();
-    console.log("ok ho cliccato tab cambia");
-
-    $(".schedaFilm.active .epiStag").toggle();
-
-      }
-    )
+    //tab test
+  // $( "body" ).on( "click", '.filmSingolo > .movieSingolo .tab' , function() {
+  //   $(".schedaFilm.active .half").toggle();
+  //   console.log("ok ho cambiato ");
+  //
+  //   $(".schedaFilm.active .epiStag").toggle();
+  //   $(".full").toggleClass("black");
+  //
+  //     }
+  //   )
 
     $( "body" ).on( "click", '.filmSingolo > .movieSingolo .chiudiScheda' , function() {
         $(this).children(".schedaFilm").removeClass("active");
         console.log("ho schiacciato chiudi");
+        $(".schedaFilm.active").addClass("chiudermi");
 
         }
       )
@@ -950,7 +975,7 @@ $( document ).ready(function() {
 
             var youtube = "https://www.youtube.com/embed/";
 
-            var trailerUrl = youtube + response.results[0].key + "?autoplay=1&rel=0&controls=0&modestbranding=1&showinfo=0";
+            var trailerUrl = youtube + response.results[0].key + "?autoplay=1&controls=0";
 
             console.log(trailerUrl);
 
