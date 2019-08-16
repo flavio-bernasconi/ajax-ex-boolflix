@@ -452,12 +452,21 @@ a.attivo{
   opacity: 0;
   font-size: 3rem;
   letter-spacing: 1px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   /* animation-name: opacita; */
-  animation-delay: 0.4s;
+  animation-delay: 0.3s;
   animation-duration: .3s;
   animation-fill-mode: forwards;
+  white-space: normal;
 }
+.dataRilascio{
+  opacity: 0;
+  animation-delay: 0.5s;
+  animation-duration: .3s;
+  animation-fill-mode: forwards;
+  margin-bottom: 20px;
+}
+
 .half .sintesi{
   width: 75%;
   opacity: 0;
@@ -505,16 +514,11 @@ a.attivo{
 
 
 
-
 @-webkit-keyframes opacita {
   0% : {  opacity: 0;}
   50% {  opacity: 0.5;}
   100% {opacity: 1;}
 }
-
-
-
-
 
 
 .play i{
@@ -532,7 +536,22 @@ a.attivo{
 .active{
   opacity: 1;
   width: 90vw;
+  margin-bottom: 120px;
+
 }
+.genere > span{
+  margin-right: 10px;
+  border:solid 1px red;
+  padding:10px 15px;
+}
+
+.container .genere{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+
 
 
 .videoFilm{

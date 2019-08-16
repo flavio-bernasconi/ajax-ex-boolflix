@@ -31,6 +31,9 @@ $( document ).ready(function() {
           var genre = response.results[i].genre_ids;
           var back = response.results[i].backdrop_path;
           var target = response.results[i].id;
+          var date = response.results[i].first_air_date;
+
+          date = date.slice(0,4);
 
           //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
           //per ogni film
@@ -65,6 +68,7 @@ $( document ).ready(function() {
             trama : tramaMovie,
             sfondo : back,
             riconoscimento : target,
+            rilascio:date,
             gen : genre
 
            };
@@ -99,6 +103,9 @@ $( document ).ready(function() {
           var posterMovie = response.results[i].poster_path;
           var genre = response.results[i].genre_ids;
           var back = response.results[i].backdrop_path;
+          var date = response.results[i].release_date;
+
+          date = date.slice(0,4);
 
 
           //prende il voto lo divide a metà lo arrotonda e me lo restituisce intero
@@ -133,6 +140,7 @@ $( document ).ready(function() {
             poster : urlImg,
             trama : tramaMovie,
             sfondo : back,
+            rilascio : date,
             gen : genre
 
            };
@@ -150,7 +158,6 @@ $( document ).ready(function() {
 
     //facciola la chiamata film singolo
     chiamataSingoloM()
-
 
 
   //nuovi film new movie
@@ -202,6 +209,34 @@ $( document ).ready(function() {
     )}
 
     discover()
+
+
+    //get generi e aggiungi alla scheda
+    var genUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=085f025c352f6e30faea971db0667d31";
+
+      var settings = { url: genUrl }
+
+      function generiList(){
+        $.ajax(settings).done(function (response) {
+
+          $(".genere").each(
+            function(){
+              var attributogenere = $(this).attr("data-genere");
+
+              for (var i = 0; i < 19; i++) {
+                if (attributogenere.includes(response.genres[i].id)) {
+                  $(this).append("<span>" + response.genres[i].name + "</span>")
+                }
+              }
+
+            }
+          )
+        })
+      }
+      generiList()
+
+
+
 
 
 
@@ -532,7 +567,30 @@ $( document ).ready(function() {
     $(".btnFiltri").show();
 
     //poi faccio la chiamta
-    tutto()
+    tutto();
+
+    var genUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=085f025c352f6e30faea971db0667d31";
+
+      var settings = { url: genUrl }
+
+      function generiList(){
+        $.ajax(settings).done(function (response) {
+
+          $(".genere").each(
+            function(){
+              var attributogenere = $(this).attr("data-genere");
+
+              for (var i = 0; i < 19; i++) {
+                if (attributogenere.includes(response.genres[i].id)) {
+                  $(this).append("<span>" + response.genres[i].name + "</span>")
+                }
+              }
+
+            }
+          )
+        })
+      }
+      generiList()
   }
 
   //qunado schiaccio su btn search
@@ -560,8 +618,12 @@ $( document ).ready(function() {
         $(".container").empty();
 
         $(".prev").show();
+        $(".filtro.attivo").removeClass("attivo");
+        $(".all").addClass("attivo");
 
-        tutto()
+        tutto();
+
+
       }
     )
 
@@ -791,10 +853,9 @@ $( document ).ready(function() {
 
 
     var idSeria = "0";
-    console.log(idSeria);
 
     //apri scheda film singolo
-    $( "body" ).on( "click", '.filmSingolo > .movieSingolo' , function(e) {
+    $( "body" ).on( "click", '.filmSingolo > .movieSingolo ' , function(e) {
         //prevents from scrolling to top behavior
         e.preventDefault();
         $(".relativo").addClass("attivato");
@@ -841,88 +902,68 @@ $( document ).ready(function() {
 
         }
 
-
-        //prendo recupero informazioni id del film episodi e stagioni
-        idSeria = $(this).attr("data-id");
-
-        console.log("valore sesria",idSeria);
-
-
-
-      var urlNumeroStagioni = "https://api.themoviedb.org/3/tv/" + idSeria + "?api_key=085f025c352f6e30faea971db0667d31"
-
-
-      var settings = { url: urlNumeroStagioni }
-
-      function getNumeroStagioni(){
-        $.ajax(settings).done(function (response) {
-
-                console.log("stagioni",response);
-
-                var stagioni = response.number_of_seasons;
-                var episodi = response.number_of_episodes;
-
-
-                console.log(stagioni,episodi);
-
-                $(".primo .stagioniClass").text(stagioni);
-                $(".primo .episodiClass").text(episodi);
-
-
-              })
-            }
-
-
-        getNumeroStagioni();
-
-
-
-
-        //info episodi stagione
-        // var episodeUrl = "https://api.themoviedb.org/3/tv/" + idSeria + "/season/1?api_key=085f025c352f6e30faea971db0667d31"
-        //
-        // console.log(episodeUrl);
-        //
-        // var settings = { url: episodeUrl }
-        //
-        // function getEpisode(){
-        //   $.ajax(settings).done(function (response) {
-        //
-        //           console.log(response);
-        //
-        //
-        //           }
-        //
-        //       )}
-        //
-        // getEpisode()
-
-
-
-
-
-
-
-
       }
     );
 
 
 
+    //prendo id dela serie per recuperare i dati poi
+    $( "body" ).on( "click", '.primo .filmSingolo > .movieSingolo' , function() {
+    //prendo recupero informazioni id del film episodi e stagioni
+    idSeria = $(this).attr("data-id");
+
+    console.log("valore sesria",idSeria);
+
+    var urlNumeroStagioni = "https://api.themoviedb.org/3/tv/" + idSeria + "?api_key=085f025c352f6e30faea971db0667d31"
+
+
+    var settings = { url: urlNumeroStagioni }
+
+    function getNumeroStagioni(){
+      $.ajax(settings).done(function (response) {
+
+              console.log("stagioni",response);
+
+              var stagioni = response.number_of_seasons;
+              var episodi = response.number_of_episodes;
+
+
+              console.log(stagioni,episodi);
+
+              $(".primo .stagioniClass").text(stagioni);
+              $(".primo .episodiClass").text(episodi);
+
+
+            })
+          }
+
+
+        getNumeroStagioni();
+
+
+        // info episodi stagione
+        var episodeUrl = "https://api.themoviedb.org/3/tv/" + idSeria + "/season/1?api_key=085f025c352f6e30faea971db0667d31"
+
+        console.log(episodeUrl);
+
+        var settings = { url: episodeUrl }
+
+        function getEpisode(){
+          $.ajax(settings).done(function (response) {
+
+              console.log("info episodi",response);
+
+
+              }
+
+          )}
+
+        getEpisode()
+
+      })//fine funzione click
 
 
 
-
-    //tab test
-  // $( "body" ).on( "click", '.filmSingolo > .movieSingolo .tab' , function() {
-  //   $(".schedaFilm.active .half").toggle();
-  //   console.log("ok ho cambiato ");
-  //
-  //   $(".schedaFilm.active .epiStag").toggle();
-  //   $(".full").toggleClass("black");
-  //
-  //     }
-  //   )
 
     $( "body" ).on( "click", '.filmSingolo > .movieSingolo .chiudiScheda' , function() {
         $(this).children(".schedaFilm").removeClass("active");

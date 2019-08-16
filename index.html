@@ -180,7 +180,7 @@
               <p><span class="lang" data-lingua='{{lingua}}'></span></p>
               <p><span class="rate" data-numero='{{voto}}'></span></p>
               <p class="sinossi">{{trama}}</p>
-              <p class="genere" data-genere="{{popolarita}}">{{popolarita}}</p>
+              <p class="genere" data-genere="{{popolarita}}"></p>
             </div>
           </div>
         </div>
@@ -236,10 +236,11 @@
             <div class="full">
               <div class="half">
                 <h3 class="title">{{titoloFilm}}</h3>
+                <p class="dataRilascio">{{rilascio}}</p>
                 <p class="sintesi" >{{trama}}</p>
                 <span class="rate" data-numero='{{voto}}'></span>
-                <p class="genere" data-genere="{{gen}}">{{gen}}</p>
-                <a href="#" class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
+                <p class="genere" data-genere="{{gen}}"></p>
+                <a href="link.html" target="_blank" class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
 
               </div>
               <div class="corner">
@@ -253,24 +254,13 @@
                   <p class="episodiClass">{{episodiNum}}</p>
                 </div>
               </div>
-
-              <!-- <div class="epiStag">
-                <div>
-                  <h3>Stagioni</h3>
-                  <p class="stagioniClass">{{stagioneNum}}</p>
-                </div>
-                <div>
-                  <h3>Episodi</h3>
-                  <p class="episodiClass">{{episodiNum}}</p>
-                </div>
-              </div> -->
             </div>
             <!-- <a class="tab">stagioni episodi</a> -->
             <a class="chiudiScheda"><i class="fa fa-times out" aria-hidden="true"></i></a>
 
           </div>
-
         </div>
+
       </script>
 
 
