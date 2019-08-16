@@ -55,7 +55,7 @@ $( document ).ready(function() {
           }
 
           //template handelbars
-          var sorgenteCodice = $("#scheda").html();
+          var sorgenteCodice = $("#schedaFilmTemplate").html();
 
           var template = Handlebars.compile(sorgenteCodice);
 
@@ -64,12 +64,28 @@ $( document ).ready(function() {
             titoloFilm: titoloMovie,
             lingua: linguaMovie,
             voto :  numStelle,
-            poster : urlImg,
             trama : tramaMovie,
-            sfondo : back,
             riconoscimento : target,
             rilascio:date,
             gen : genre
+
+           };
+
+          var html = template(daInserire);
+
+          $(".primo > .schedaFilm > .full > .half").append(html);
+
+
+          //template handelbars
+          var sorgenteCodice = $("#scheda").html();
+
+          var template = Handlebars.compile(sorgenteCodice);
+
+          //richiamo le variabili definite
+          var daInserire = {
+            sfondo : back,
+            riconoscimento : target,
+            poster : urlImg
 
            };
 
@@ -104,6 +120,8 @@ $( document ).ready(function() {
           var genre = response.results[i].genre_ids;
           var back = response.results[i].backdrop_path;
           var date = response.results[i].release_date;
+          var target = response.results[i].id;
+
 
           date = date.slice(0,4);
 
@@ -128,7 +146,8 @@ $( document ).ready(function() {
           }
 
           //template handelbars
-          var sorgenteCodice = $("#scheda").html();
+          //template handelbars
+          var sorgenteCodice = $("#schedaFilmTemplate").html();
 
           var template = Handlebars.compile(sorgenteCodice);
 
@@ -137,11 +156,28 @@ $( document ).ready(function() {
             titoloFilm: titoloMovie,
             lingua: linguaMovie,
             voto :  numStelle,
-            poster : urlImg,
             trama : tramaMovie,
-            sfondo : back,
-            rilascio : date,
+            riconoscimento : target,
+            rilascio:date,
             gen : genre
+
+           };
+
+          var html = template(daInserire);
+
+          $(".secondo > .schedaFilm > .full > .half").append(html);
+
+
+          //template handelbars
+          var sorgenteCodice = $("#scheda").html();
+
+          var template = Handlebars.compile(sorgenteCodice);
+
+          //richiamo le variabili definite
+          var daInserire = {
+            sfondo : back,
+            riconoscimento : target,
+            poster : urlImg
 
            };
 
@@ -858,49 +894,37 @@ $( document ).ready(function() {
     $( "body" ).on( "click", '.filmSingolo > .movieSingolo ' , function(e) {
         //prevents from scrolling to top behavior
         e.preventDefault();
-        $(".relativo").addClass("attivato");
 
-        $(".vedi").hide();
-        //flex per poter aggiungere l immagine difiancoo non come sfondo
-        //ora vedo la scheda
-        $(this).find(".vedi").css("display" ,"flex");
+        $(".relativo").removeClass("attivato");
+
+        $(this).parents().addClass("attivato");
+        $(this).addClass("cliccato");
+
+        if ($(this).hasClass("cliccato")) {
+          $(".schedaFilm").hide();
+        }
+        else {
+
+        }
+
+        var idFilm = $(this).attr("data-id");
+
+        $(".relativo.attivato .schedaFilm").show();
+
+        $(".infoSingolo").hide();
+
+        $("[data-id="+ idFilm + "]").show();
 
         var bk = $(this).find(".img-film").attr("data-background");
-        //immagine di sfondo stessa del poster
-        $(this).children(".schedaFilm").css("background-image","url('https://image.tmdb.org/t/p/w1280" + bk + "')")
-        //rimuovi a tutti la classe active
-        $(".relativo .movieSingolo").not(this).find(".schedaFilm").removeClass("active");
-        //aggiungi la classe attiva solo al figlio di questo drop
-        $(this).children(".schedaFilm").addClass("active");
+       //immagine di sfondo stessa del poster
+       $(".schedaFilm").css("background-image","url('https://image.tmdb.org/t/p/w1280" + bk + "')")
 
-        $(".relativo .schedaFilm").children().css("animation-name", "");
-        $(this).find(".half").children().css("animation-name", "opacita");
+        //opacizzo tutti film
+        $(".relativo .movieSingolo").not(this).animate({opacity: 0.4}, 200);
+        //questo si vede all 100
+        $(this).animate({opacity: 1}, 0);
 
-        //apri
-        if ($(".schedaFilm").hasClass("active")) {
-          //opacizzo tutti film
-          $(".relativo .movieSingolo").not(this).animate({opacity: 0.4}, 200);
-          //questo si vede all 100
-          $(this).animate({opacity: 1}, 0);
 
-        }
-        //chiudi
-        else {
-          $(".relativo .movieSingolo").animate({opacity: 1}, 200);
-          //effetto di uscita quando riclicco sul film o su un altro
-          $(".vedi").hide();
-        }
-
-        //se ho cliccato su chiudi quindo ho aggiunto la classe "chiudermi"
-        //nascondo la scheda e rimuovo la classe
-        if ($(".schedaFilm.active").hasClass("chiudermi")) {
-          //opacizzo tutti film
-          $(".relativo .movieSingolo").animate({opacity: 1}, 200);
-          //effetto di uscita quando riclicco sul film o su un altro
-          $(".vedi").hide();
-          $(".schedaFilm.active").removeClass("chiudermi");
-
-        }
 
       }
     );
@@ -965,10 +989,14 @@ $( document ).ready(function() {
 
 
 
-    $( "body" ).on( "click", '.filmSingolo > .movieSingolo .chiudiScheda' , function() {
-        $(this).children(".schedaFilm").removeClass("active");
-        console.log("ho schiacciato chiudi");
-        $(".schedaFilm.active").addClass("chiudermi");
+    $( "body" ).on( "click", '.chiudiScheda' , function() {
+
+        $(".schedaFilm").hide();
+        console.log("ho cliccato chiudi");
+
+        $(".relativo .movieSingolo").animate({opacity: 1}, 200);
+
+        $(".relativo").removeClass("attivato");
 
         }
       )

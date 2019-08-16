@@ -94,18 +94,39 @@
       <!-- CON SCHEDA FILM E SCROLL orizzonatale -->
       <div class="relativo primo">
         <div class="filmSingolo">
-
         </div>
+          <div class="schedaFilm vedi">
+            <div class="full">
+              <div class="half">
 
+              </div>
+              <a class="chiudiScheda"><i class="fa fa-times out" aria-hidden="true"></i></a>
+            </div>
+          </div>
       </div>
-
 
 
       <div class="relativo secondo">
         <div class="filmSingolo">
 
         </div>
+
+          <div class="schedaFilm vedi">
+            <div class="full">
+              <div class="half">
+
+              </div>
+              <a class="chiudiScheda"><i class="fa fa-times out" aria-hidden="true"></i></a>
+            </div>
+          </div>
+
+
       </div>
+
+
+
+
+
 
 
       <!-- NO SCROLL ORIZZONTALE TRND   -->
@@ -231,37 +252,40 @@
       <script id="scheda" type="text/x-handlebars-template">
         <div class='movieSingolo' data-id="{{riconoscimento}}">
           <img class="img-film" src='{{poster}}' data-background="{{sfondo}}" >
+        </div>
+      </script>
 
-          <div class="schedaFilm vedi">
-            <div class="full">
-              <div class="half">
-                <h3 class="title">{{titoloFilm}}</h3>
-                <p class="dataRilascio">{{rilascio}}</p>
-                <p class="sintesi" >{{trama}}</p>
-                <span class="rate" data-numero='{{voto}}'></span>
-                <p class="genere" data-genere="{{gen}}"></p>
-                <a href="link.html" target="_blank" class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
 
+
+    <script id="schedaFilmTemplate" type="text/x-handlebars-template">
+
+      <div class="infoSingolo" data-id="{{riconoscimento}}">
+              <h3 class="title">{{titoloFilm}}</h3>
+              <p class="dataRilascio">{{rilascio}}</p>
+              <p class="sintesi" >{{trama}}</p>
+              <span class="rate" data-numero='{{voto}}'></span>
+              <p class="genere" data-genere="{{gen}}"></p>
+              <a href="link.html"  class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
+
+            <div class="corner">
+              <div>
+                <h3>Stagioni</h3>
+                <p class="stagioniClass">{{stagioneNum}}</p>
               </div>
-              <div class="corner">
-                <div>
-                  <h3>Stagioni</h3>
-                  <p class="stagioniClass">{{stagioneNum}}</p>
-                </div>
-                <div class="separe"></div>
-                <div>
-                  <h3>Episodi</h3>
-                  <p class="episodiClass">{{episodiNum}}</p>
-                </div>
+              <div class="separe"></div>
+              <div>
+                <h3>Episodi</h3>
+                <p class="episodiClass">{{episodiNum}}</p>
               </div>
             </div>
-            <!-- <a class="tab">stagioni episodi</a> -->
-            <a class="chiudiScheda"><i class="fa fa-times out" aria-hidden="true"></i></a>
+      </div>
 
-          </div>
-        </div>
 
-      </script>
+    </script>
+
+
+
+
 
 
 
