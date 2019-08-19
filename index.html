@@ -15,8 +15,6 @@
 
     </head>
 
-
-
     <body>
 
       <div class="searchBar">
@@ -69,7 +67,6 @@
 
 
       <div class="paginaRisultati">
-
         <div class="container">
           <!-- DOVE INCOLLO I RISULTATI DELLA RICCERCA -->
         </div>
@@ -81,11 +78,9 @@
 
 
       <!-- VIDEOOOOO -->
-        <div class="videoFilm">
-          <iframe class="video" width="100%" height="100%" src="" frameborder="0" webkitallowfullscreen mozallowfullscreen  allowfullscreen></iframe>
-        </div>
-
-
+      <div class="videoFilm">
+        <iframe class="video" width="100%" height="100%" src="" frameborder="0" webkitallowfullscreen mozallowfullscreen  allowfullscreen></iframe>
+      </div>
 
 
 
@@ -93,12 +88,32 @@
 
       <!-- CON SCHEDA FILM E SCROLL orizzonatale -->
       <div class="relativo primo">
-        <div class="filmSingolo">
+        <h1>Serie</h1>
+        <div class="filmSingolo"  >
+
         </div>
           <div class="schedaFilm vedi">
+            <div class="btn-schedaFilm">
+              <a href="#" class="btnInfoFilm in">INFO</a>
+              <a href="#" class="btnInfoEpisodi">EPISODI</a>
+            </div>
+
+
             <div class="full">
+              <!-- info sulla serie -->
               <div class="half">
 
+              </div>
+
+
+              <!-- tab lista episodi  -->
+              <div class="listaEpisodi">
+                <a href="#" class="nextSeason">Next</a>
+                <a href="#" class="prevSeason">Prev</a>
+
+                <div class="list">
+
+                </div>
               </div>
               <a class="chiudiScheda"><i class="fa fa-times out" aria-hidden="true"></i></a>
             </div>
@@ -106,7 +121,8 @@
       </div>
 
 
-      <div class="relativo secondo">
+      <div class="relativo secondo ">
+        <h1>Movie</h1>
         <div class="filmSingolo">
 
         </div>
@@ -225,11 +241,11 @@
       <script id="trending" type="text/x-handlebars-template">
             <div class='movieSingolo'>
                 <img class="img-film" src='{{poster}}'>
-                <!-- <div class="overlay">
+                <div class="overlay">
                   <div class="dettagli">
                     <p class="title">{{titoloSerie}}</p>
                   </div>
-                </div> -->
+                </div>
             </div>
       </script>
 
@@ -250,7 +266,7 @@
 
 
       <script id="scheda" type="text/x-handlebars-template">
-        <div class='movieSingolo' data-id="{{riconoscimento}}">
+        <div class='movieSingolo' data-id="{{riconoscimento}}" data-index="{{indice}}">
           <img class="img-film" src='{{poster}}' data-background="{{sfondo}}" >
         </div>
       </script>
@@ -258,7 +274,6 @@
 
 
     <script id="schedaFilmTemplate" type="text/x-handlebars-template">
-
       <div class="infoSingolo" data-id="{{riconoscimento}}">
               <h3 class="title">{{titoloFilm}}</h3>
               <p class="dataRilascio">{{rilascio}}</p>
@@ -279,17 +294,39 @@
               </div>
             </div>
       </div>
+    </script>
 
 
+    <script id="listaEpisodiTemplate" type="text/x-handlebars-template">
+      <div class="infoSingolo epi" data-id="{{riconoscimento}}">
+
+            <img src="{{epImg}}" />
+            <h3>{{nomiEp}}</h3>
+            <div class="tramaEpisodio">
+              <p>
+                {{epTrama}}
+              </p>
+            </div>
+
+      </div>
     </script>
 
 
 
+    <script id="listaStagioniTemplate" type="text/x-handlebars-template">
+      <div class="infoSingolo" data-id="{{riconoscimento}}">
+          <li>
+            <h3>{{nomiSt}}</h3>
+            <p>{{tramaSt}}</p>
+          </li>
+      </div>
+    </script>
 
 
 
 
         <script src="main.js" charset="utf-8"></script>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.js" charset="utf-8"></script>
     </body>
 </html>

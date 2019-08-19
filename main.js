@@ -1,7 +1,7 @@
 $( document ).ready(function() {
 
   var inc = 1;
-
+  var stagSerie = 1;
   var votoMovie = "";
 
   //film singolo con scheda al click
@@ -21,8 +21,12 @@ $( document ).ready(function() {
         // console.log("oggetto response",response.results);
         console.log("oggetto singolo serie",response);
 
+        var index = 0;
+
         for (var i = 0; i < 10; i++) {
           // console.log("singolo film",response.results[i]);
+          index = index + 1;
+          console.log(index);
 
           //creo variabili riferimento per handlebars
           var titoloMovie = response.results[i].name;
@@ -85,7 +89,8 @@ $( document ).ready(function() {
           var daInserire = {
             sfondo : back,
             riconoscimento : target,
-            poster : urlImg
+            poster : urlImg,
+            indice : index
 
            };
 
@@ -269,12 +274,9 @@ $( document ).ready(function() {
           )
         })
       }
-      generiList()
 
 
-
-
-
+    generiList()
 
 
 
@@ -362,7 +364,7 @@ $( document ).ready(function() {
         }
       )}
 
-  //funzione che richiama film e serie tv
+  //funzione che richiama film e serie tv quando cerco
   function tutto(){
     var valore = $(".cerca").val();
 
@@ -373,7 +375,7 @@ $( document ).ready(function() {
     $(".page").text(inc);
 
 
-    //setting chiamta film
+    //setting chiamta film quando cerco
     var urlMovie = "https://api.themoviedb.org/3/search/movie?api_key=085f025c352f6e30faea971db0667d31"+word+pagNum ;
 
     settings = { url: urlMovie }
@@ -455,7 +457,7 @@ $( document ).ready(function() {
 
 
     //SERIEEEEEEEE
-    //setting chiamta serie
+    //setting chiamta serie quando cerco
     var urlSerie = "https://api.themoviedb.org/3/search/tv?api_key=085f025c352f6e30faea971db0667d31"+word+pagNum ;
 
     var settings = {
@@ -814,7 +816,6 @@ $( document ).ready(function() {
     )
 
 
-
     $(".vediFiltri").click(
       function(){
         if ($(this).hasClass("open")) {
@@ -895,20 +896,13 @@ $( document ).ready(function() {
         //prevents from scrolling to top behavior
         e.preventDefault();
 
-        $(".relativo").removeClass("attivato");
+        $("div.attivato").removeClass("attivato");
 
         $(this).parents().addClass("attivato");
-        $(this).addClass("cliccato");
-
-        if ($(this).hasClass("cliccato")) {
-          $(".schedaFilm").hide();
-        }
-        else {
-
-        }
 
         var idFilm = $(this).attr("data-id");
 
+        $(".relativo .schedaFilm").hide();
         $(".relativo.attivato .schedaFilm").show();
 
         $(".infoSingolo").hide();
@@ -924,6 +918,12 @@ $( document ).ready(function() {
         //questo si vede all 100
         $(this).animate({opacity: 1}, 0);
 
+        $(".infoSingolo").children().css("animation-name","opacita");
+
+        $(".half").show();
+
+        $(".listaEpisodi,.stagioniTab").hide();
+
 
 
       }
@@ -936,10 +936,11 @@ $( document ).ready(function() {
     //prendo recupero informazioni id del film episodi e stagioni
     idSeria = $(this).attr("data-id");
 
+    stagSerie = 1;
+
     console.log("valore sesria",idSeria);
 
     var urlNumeroStagioni = "https://api.themoviedb.org/3/tv/" + idSeria + "?api_key=085f025c352f6e30faea971db0667d31"
-
 
     var settings = { url: urlNumeroStagioni }
 
@@ -951,40 +952,333 @@ $( document ).ready(function() {
               var stagioni = response.number_of_seasons;
               var episodi = response.number_of_episodes;
 
+              for (var i = 0; i < response.seasons.length; i++) {
+                var sint = response.seasons[i].overview;
+                var seas = response.seasons[i].name;
+
+                //template handelbars
+                var sorgenteCodice = $("#listaStagioniTemplate").html();
+
+                var template = Handlebars.compile(sorgenteCodice);
+
+                //richiamo le variabili definite
+                var daInserire = {
+                  nomiSt: seas,
+                  tramaSt : sint
+
+                 };
+
+                var html = template(daInserire);
+
+                $(".introStagione").append(html);
+
+              }
 
               console.log(stagioni,episodi);
 
+              //scrivo il numero di stagioni ed episodi
               $(".primo .stagioniClass").text(stagioni);
               $(".primo .episodiClass").text(episodi);
+
+
+              if (response.seasons.length > 1) {
+                  $(".nextSeason").show()
+              }
+              else {
+                  $(".nextSeason").addClass("not-active");
+              }
+
 
 
             })
           }
 
+    getNumeroStagioni();
 
-        getNumeroStagioni();
+    // info episodi stagione
+    var episodeUrl = "https://api.themoviedb.org/3/tv/" + idSeria + "/season/" + stagSerie + "?api_key=085f025c352f6e30faea971db0667d31"
 
+    console.log(episodeUrl);
 
-        // info episodi stagione
-        var episodeUrl = "https://api.themoviedb.org/3/tv/" + idSeria + "/season/1?api_key=085f025c352f6e30faea971db0667d31"
+    var settings = { url: episodeUrl }
 
-        console.log(episodeUrl);
+    function getEpisode(){
+      $.ajax(settings).done(function (response) {
 
-        var settings = { url: episodeUrl }
-
-        function getEpisode(){
-          $.ajax(settings).done(function (response) {
-
-              console.log("info episodi",response);
+          console.log("info episodi",response);
 
 
-              }
+          for (var i = 0; i < response.episodes.length; i++) {
 
-          )}
+            var nomiEpisodi = response.episodes[i].name;
+            var trameEpisodi = response.episodes[i].overview;
+            var imgEpisodi = response.episodes[i].still_path;
 
-        getEpisode()
+            imgEpisodi = "https://image.tmdb.org/t/p/w342" + imgEpisodi
 
-      })//fine funzione click
+            trameEpisodi = trameEpisodi.slice(0, 170) + "...";
+
+            //template handelbars
+            var sorgenteCodice = $("#listaEpisodiTemplate").html();
+
+            var template = Handlebars.compile(sorgenteCodice);
+
+            //richiamo le variabili definite
+            var daInserire = {
+              nomiEp: nomiEpisodi,
+              epTrama : trameEpisodi,
+              epImg : imgEpisodi
+             };
+
+            var html = template(daInserire);
+
+            $(".listaEpisodi .list").append(html);
+
+          }//fine ciclo for
+
+        }
+
+      )}
+
+    getEpisode();
+
+  })//fine funzione click
+
+
+
+  $(".prevSeason").addClass("not-active");
+
+  $(".nextSeason").click(
+    function(e){
+      e.preventDefault();
+
+      $(".listaEpisodi .list").empty();
+
+      stagSerie = stagSerie + 1;
+      console.log(stagSerie);
+
+
+      var urlNumeroStagioni = "https://api.themoviedb.org/3/tv/" + idSeria + "?api_key=085f025c352f6e30faea971db0667d31"
+
+      var settings = { url: urlNumeroStagioni }
+
+      function getNumeroStagioni(){
+        $.ajax(settings).done(function (response) {
+
+                console.log("stagioni",response);
+
+                var stagioni = response.number_of_seasons;
+                var episodi = response.number_of_episodes;
+
+                for (var i = 0; i < response.seasons.length; i++) {
+                  // var sint = response.seasons[i].overview;
+                  var seas = response.seasons[i].name;
+
+                  //template handelbars
+                  var sorgenteCodice = $("#listaStagioniTemplate").html();
+
+                  var template = Handlebars.compile(sorgenteCodice);
+
+                  //richiamo le variabili definite
+                  var daInserire = {
+                    nomiSt: seas,
+                    // tramaSt : sint
+
+                   };
+
+                  var html = template(daInserire);
+                  //dove lo inserisco
+                  $(".introStagione").append(html);
+
+                }
+
+                //se il numero di stagione è uguale all numero incrementato con il btn next
+                //nascondo il bottone
+                if (stagioni == stagSerie) {
+                    $(".nextSeason").addClass("not-active");
+                }
+
+
+              })
+            }
+
+      getNumeroStagioni();
+
+
+      var episodeUrl = "https://api.themoviedb.org/3/tv/" + idSeria + "/season/"+ stagSerie +"?api_key=085f025c352f6e30faea971db0667d31"
+
+      console.log(episodeUrl);
+
+      var settings = { url: episodeUrl };
+
+      function getEpisode(){
+        $.ajax(settings).done(function (response) {
+
+            console.log("info episodi",response);
+
+
+            for (var i = 0; i < response.episodes.length; i++) {
+
+              var nomiEpisodi = response.episodes[i].name;
+              var trameEpisodi = response.episodes[i].overview;
+              var imgEpisodi = response.episodes[i].still_path;
+
+              imgEpisodi = "https://image.tmdb.org/t/p/w342" + imgEpisodi
+
+              trameEpisodi = trameEpisodi.slice(0, 170) + "...";
+
+              //template handelbars
+              var sorgenteCodice = $("#listaEpisodiTemplate").html();
+
+              var template = Handlebars.compile(sorgenteCodice);
+
+              //richiamo le variabili definite
+              var daInserire = {
+                nomiEp: nomiEpisodi,
+                epTrama : trameEpisodi,
+                epImg : imgEpisodi
+               };
+
+              var html = template(daInserire);
+
+              $(".listaEpisodi .list").append(html);
+
+            }//fine ciclo for
+
+          }
+
+        )}
+
+      getEpisode();
+
+      $(".prevSeason").removeClass("not-active");
+
+
+
+    }
+  )
+
+
+
+
+
+  $(".prevSeason").click(
+    function(e){
+      e.preventDefault();
+      $(".nextSeason").show();
+
+      $(".listaEpisodi .list").empty();
+
+      stagSerie = stagSerie - 1;
+      console.log(stagSerie);
+
+      if (stagSerie == 1) {
+        $(this).addClass("not-active");
+        $(".nextSeason").removeClass("not-active");
+      }
+
+
+      var urlNumeroStagioni = "https://api.themoviedb.org/3/tv/" + idSeria + "?api_key=085f025c352f6e30faea971db0667d31"
+
+      var settings = { url: urlNumeroStagioni }
+
+      function getNumeroStagioni(){
+        $.ajax(settings).done(function (response) {
+
+                console.log("stagioni",response);
+
+                var stagioni = response.number_of_seasons;
+                var episodi = response.number_of_episodes;
+
+                for (var i = 0; i < response.seasons.length; i++) {
+                  // var sint = response.seasons[i].overview;
+                  var seas = response.seasons[i].name;
+
+                  //template handelbars
+                  var sorgenteCodice = $("#listaStagioniTemplate").html();
+
+                  var template = Handlebars.compile(sorgenteCodice);
+
+                  //richiamo le variabili definite
+                  var daInserire = {
+                    nomiSt: seas,
+                    // tramaSt : sint
+
+                   };
+
+                  var html = template(daInserire);
+                  //dove lo inserisco
+                  $(".introStagione").append(html);
+
+                }
+
+                //se il numero di stagione è uguale all numero incrementato con il btn next
+                //nascondo il bottone
+                if (stagioni == stagSerie) {
+                    $(".nextSeason").addClass("not-active");
+                }
+
+
+              })
+            }
+
+      getNumeroStagioni();
+
+
+      var episodeUrl = "https://api.themoviedb.org/3/tv/" + idSeria + "/season/"+ stagSerie +"?api_key=085f025c352f6e30faea971db0667d31"
+
+      console.log(episodeUrl);
+
+      var settings = { url: episodeUrl };
+
+      function getEpisode(){
+        $.ajax(settings).done(function (response) {
+
+            console.log("info episodi",response);
+
+
+            for (var i = 0; i < response.episodes.length; i++) {
+
+              var nomiEpisodi = response.episodes[i].name;
+              var trameEpisodi = response.episodes[i].overview;
+              var imgEpisodi = response.episodes[i].still_path;
+
+              imgEpisodi = "https://image.tmdb.org/t/p/w342" + imgEpisodi
+
+              trameEpisodi = trameEpisodi.slice(0, 170) + "...";
+
+              //template handelbars
+              var sorgenteCodice = $("#listaEpisodiTemplate").html();
+
+              var template = Handlebars.compile(sorgenteCodice);
+
+              //richiamo le variabili definite
+              var daInserire = {
+                nomiEp: nomiEpisodi,
+                epTrama : trameEpisodi,
+                epImg : imgEpisodi
+               };
+
+              var html = template(daInserire);
+
+              $(".listaEpisodi .list").append(html);
+
+            }//fine ciclo for
+
+          }
+
+        )}
+
+      getEpisode()
+
+
+
+    }
+  )
+
+
+
+
 
 
 
@@ -998,19 +1292,45 @@ $( document ).ready(function() {
 
         $(".relativo").removeClass("attivato");
 
+        stagSerie = 1;
+
         }
       )
 
 
 
 
+    // tab con info sugli episodi
+    $( "body" ).on( "click", '.schedaFilm .btnInfoEpisodi ' , function(e) {
+        //prevents from scrolling to top behavior
+        e.preventDefault();
+
+        $(".half,.stagioniTab").hide();
+        $(".listaEpisodi").show();
 
 
+      }
+    );
 
+    $( "body" ).on( "click", '.schedaFilm .btnInfoFilm ' , function(e) {
+        //prevents from scrolling to top behavior
+        e.preventDefault();
 
+        $(".listaEpisodi,.stagioniTab").hide();
+        $(".half").show();
 
+      }
+    );
 
+    $( "body" ).on( "click", '.schedaFilm .btnInfoStagioni ' , function(e) {
+        //prevents from scrolling to top behavior
+        e.preventDefault();
 
+        $(".listaEpisodi,.half").hide();
+        $(".stagioniTab").show();
+
+      }
+    );
 
 
 
@@ -1076,6 +1396,33 @@ $( document ).ready(function() {
             }
           )
         }
+
+
+        //scrolla orizzontalmente quando sono nei coroselli slideer  in home
+        $(".filmSingolo").mouseenter(
+            function() {
+              $(".filmSingolo").mousewheel(function(event, delta) {
+              this.scrollLeft -= (delta * 0.3);
+              event.preventDefault();
+              });
+            }
+          )
+
+
+
+
+$(".movieSingolo").each(
+  function(){
+    var attr = $(this).attr('data-index');
+    console.log(attr);
+    if (attr == 1) {
+      $(this).addClass("margine")
+    }
+  }
+)
+
+
+
 
 
 

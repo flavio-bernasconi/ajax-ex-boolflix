@@ -15,7 +15,7 @@ body{
 }
 .contenitoreHome{
   margin: auto;
-  padding-left: 70px;
+  /* padding-left: 70px; */
   margin-top: 80px;
 }
 
@@ -410,14 +410,13 @@ a.attivo{
   left: 50%;
   transform: translateX(-50%);
   top: 543px;
-  min-height: 513px;
   max-width: 1500px;
   background: rgb(0, 0, 0);
   color: white;
   z-index: 100;
   background-repeat: no-repeat;
-  background-position: right;
-  background-size: contain;
+  background-position: center top;
+  background-size: cover;
   justify-content: space-between;
   position: relative;
   margin-bottom: 150px;
@@ -425,6 +424,7 @@ a.attivo{
 .full{
   position: relative;
   width: 100%;
+  opacity: 1;
 }
 .schedaFilm .half{
   opacity: 1;
@@ -433,25 +433,13 @@ a.attivo{
   min-width:150px;
   height: 100%;
   background: black;
-  position: relative;
-}
-.schedaFilm .half:after{
-  content : "";
-  display: block;
-  position: absolute;
-  right: -38px;
-  top: 0;
-  width: 40px;
-  min-height: 100%;
-  background:linear-gradient(
-    to right,
-    black,
-    transparent
-  );
+  padding-top: 80px;
+  /* position: relative; */
 }
 
+
 .schedaFilm .title{
-  opacity: 1;
+  opacity: 0;
   font-size: 3rem;
   letter-spacing: 1px;
   margin-bottom: 10px;
@@ -462,7 +450,7 @@ a.attivo{
   white-space: normal;
 }
 .dataRilascio{
-  opacity: 1;
+  opacity: 0;
   animation-delay: 0.5s;
   animation-duration: .3s;
   animation-fill-mode: forwards;
@@ -471,7 +459,7 @@ a.attivo{
 
 .half .sintesi{
   width: 75%;
-  opacity: 1;
+  opacity: 0;
   font-size: 16px;
   line-height: 2rem;
   letter-spacing: 1px;
@@ -484,7 +472,7 @@ a.attivo{
 }
 .half .rate{
   display: block;
-  opacity: 1;
+  opacity: 0;
   /* animation-name: opacita; */
   margin: 30px 0;
   animation-delay: 1s;
@@ -492,10 +480,21 @@ a.attivo{
   animation-fill-mode: forwards;
 }
 .half .genere{
-  opacity: 1;
+  opacity: 0;
   animation-delay: 1.3s;
   animation-duration: .3s;
   animation-fill-mode: forwards;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: self-start;
+  margin-bottom: 30px;
+}
+
+.genere > span{
+  margin-right: 10px;
+  border:solid 1px red;
+  padding:10px 15px;
+  margin-top: 10px;
 }
 
 .schedaFilm .play{
@@ -506,7 +505,7 @@ a.attivo{
   font-weight: 300;
   text-decoration: none;
   color: red;
-  opacity: 1;
+  opacity: 0;
   /* animation-name: opacita; */
   animation-delay:1.6s;
   animation-duration: .3s;
@@ -542,11 +541,11 @@ a.attivo{
   margin-bottom: 120px;
 
 }
-.genere > span{
-  margin-right: 10px;
-  border:solid 1px red;
-  padding:10px 15px;
-}
+
+
+
+
+
 
 .container .genere{
   display: flex;
@@ -554,28 +553,11 @@ a.attivo{
 }
 
 
-
-
-
 .videoFilm{
 position: relative;;
 height: 70vh;
 width: 100%;
 }
-
-/* .videoFilm {
-    position: relative;
-    padding-bottom: 56.25%; 16:9
-    padding-top: 25px;
-    height: 0;
-}
-.videoFilm iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-} */
 
 
 .tab{
@@ -641,7 +623,87 @@ width: 100%;
 
 
 
+.btn-schedaFilm{
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  width: 45%;
+}
+.btn-schedaFilm a{
+  width:50%;
+  background: red;
+  padding: 8px;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+}
+.btn-schedaFilm a.in{
+  background: white;
+  color: red
+}
 
+.listaEpisodi{
+  display: none;
+  padding: 40px;
+  width:100%;
+  height: 100%;
+  background: black;
+  padding-top: 60px;
+
+
+}
+.listaEpisodi .list{
+  list-style: none;
+  min-height: 350px;
+  display:flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.listaEpisodi >a{
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.epi{
+  min-width: 340px;
+  margin-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.epi img{
+  margin:15px;
+  margin-left:0px;
+  width:100%;
+  float: left;
+
+}
+
+
+.tramaEpisodio{
+  max-width: 342px;
+  margin-top:10px;
+  margin-bottom: 30px;
+  padding-right: 40px;
+  line-height: 1.7rem;
+  font-size: 17px;
+  font-weight: normal;
+  white-space: normal;
+
+}
+
+.not-active {
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+  opacity: 0.5
+}
+.margine{
+  margin-left: 70px;
+}
 
 
 
@@ -708,6 +770,12 @@ width: 100%;
     margin-bottom: 60px;
 
   }
+  .schedaFilm .half{
+    max-width: 100%;
+  }
+  .full{
+    opacity: 0.8
+  }
 
 
 
@@ -723,36 +791,3 @@ width: 100%;
     width:500px
   }
 }
-
-
-
-
-
-
-
-
-/* per test tab scheda film */
-/* .epiStag{
-  display: none;
-  padding: 40px;
-}
-.epiStag h3{
-  color: white;
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 15px;
-  letter-spacing: 1px;
-}
-.epiStag p{
-  color: red;
-  font-weight: lighter;
-  font-size: 5rem;
-  margin-bottom: 40px;
-}
-.black{
-  background: black
-}
-.flexa{
-  display: flex;
-} */
-/*  */
