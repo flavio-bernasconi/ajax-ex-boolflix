@@ -385,6 +385,14 @@ a.attivo{
   position: relative;
   margin-bottom: 90px;
 }
+.relativo h1{
+  margin-left: 40px;
+  color: white;
+  margin-bottom: 20px;
+  font-weight: lighter;
+  font-size: 45px;
+  letter-spacing: 3px;
+}
 
 .relativo .movieSingolo{
   display: flex;
@@ -702,7 +710,7 @@ width: 100%;
   opacity: 0.5
 }
 .margine{
-  margin-left: 70px;
+  margin-left: 40px;
 }
 
 

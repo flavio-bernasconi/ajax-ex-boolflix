@@ -26,7 +26,6 @@ $( document ).ready(function() {
         for (var i = 0; i < 10; i++) {
           // console.log("singolo film",response.results[i]);
           index = index + 1;
-          console.log(index);
 
           //creo variabili riferimento per handlebars
           var titoloMovie = response.results[i].name;
@@ -99,6 +98,21 @@ $( document ).ready(function() {
           $(".primo .filmSingolo").append(html);
           //fine templating handlebars
         }//fine ciclo for oggetti
+
+        //prendo attr data-index e assegno a quello con valore 1 la classe che
+        // da il margine inistro
+        //cosi il primo film enllo slider non e' al vivo
+        $(".filmSingolo .movieSingolo").each(
+          function(){
+            var attr = $(this).attr('data-index');
+            console.log("attributo", attr);
+            if (attr == 1) {
+              $(this).addClass("margine")
+            }
+          }
+        )
+
+
       })
 
     }
@@ -114,9 +128,11 @@ $( document ).ready(function() {
       $.ajax(settings).done(function (response) {
         // console.log("oggetto response",response.results);
         console.log("oggetto singolo film",response);
+        var index = 0;
 
         for (var i = 0; i < 10; i++) {
           // console.log("singolo film",response.results[i]);
+          index = index + 1;
 
           //creo variabili riferimento per handlebars
           var titoloMovie = response.results[i].title;
@@ -182,7 +198,9 @@ $( document ).ready(function() {
           var daInserire = {
             sfondo : back,
             riconoscimento : target,
-            poster : urlImg
+            poster : urlImg,
+            indice : index
+
 
            };
 
@@ -193,6 +211,16 @@ $( document ).ready(function() {
         }//fine ciclo for oggetti
 
         daiVoto();
+
+        $(".filmSingolo .movieSingolo").each(
+          function(){
+            var attr = $(this).attr('data-index');
+            console.log("attributo", attr);
+            if (attr == 1) {
+              $(this).addClass("margine")
+            }
+          }
+        )
 
       })
     }
@@ -588,6 +616,9 @@ $( document ).ready(function() {
     //pulisco il contenitore quando rifaccio la chiamata non si accavallano il risultato vecchio con quello nuovo
     $(".container").empty();
 
+
+
+
   }
 
 
@@ -936,7 +967,11 @@ $( document ).ready(function() {
     //prendo recupero informazioni id del film episodi e stagioni
     idSeria = $(this).attr("data-id");
 
+    //ogni volta che cambio film i bottoni si resettano next cliccabile prev no
     stagSerie = 1;
+    console.log(stagSerie);
+    $(".nextSeason").removeClass("not-active");
+    $(".prevSeason").addClass("not-active");
 
     console.log("valore sesria",idSeria);
 
@@ -987,8 +1022,6 @@ $( document ).ready(function() {
               else {
                   $(".nextSeason").addClass("not-active");
               }
-
-
 
             })
           }
@@ -1055,7 +1088,7 @@ $( document ).ready(function() {
       $(".listaEpisodi .list").empty();
 
       stagSerie = stagSerie + 1;
-      console.log(stagSerie);
+      console.log("numero stagione",stagSerie);
 
 
       var urlNumeroStagioni = "https://api.themoviedb.org/3/tv/" + idSeria + "?api_key=085f025c352f6e30faea971db0667d31"
@@ -1398,10 +1431,10 @@ $( document ).ready(function() {
         }
 
 
-        //scrolla orizzontalmente quando sono nei coroselli slideer  in home
-        $(".filmSingolo").mouseenter(
+        //scrolla orizzontalmente quando sono nei coroselli slider negli episodi scheda film
+        $(".list").mouseenter(
             function() {
-              $(".filmSingolo").mousewheel(function(event, delta) {
+              $(".list").mousewheel(function(event, delta) {
               this.scrollLeft -= (delta * 0.3);
               event.preventDefault();
               });
@@ -1411,15 +1444,6 @@ $( document ).ready(function() {
 
 
 
-$(".movieSingolo").each(
-  function(){
-    var attr = $(this).attr('data-index');
-    console.log(attr);
-    if (attr == 1) {
-      $(this).addClass("margine")
-    }
-  }
-)
 
 
 
