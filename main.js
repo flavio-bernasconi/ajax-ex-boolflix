@@ -51,7 +51,7 @@ $( document ).ready(function() {
           var tramaMovie = response.results[i].overview;
 
 
-          var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
+          var urlImg = "https://image.tmdb.org/t/p/w200"+posterMovie;
 
           //fare funzione per non ripetersi
           if (posterMovie == null) {
@@ -106,7 +106,6 @@ $( document ).ready(function() {
         $(".filmSingolo .movieSingolo").each(
           function(){
             var attr = $(this).attr('data-index');
-            console.log("attributo", attr);
             if (attr == 1) {
               $(this).addClass("margine")
             }
@@ -220,7 +219,6 @@ $( document ).ready(function() {
         $(".filmSingolo .movieSingolo").each(
           function(){
             var attr = $(this).attr('data-index');
-            console.log("attributo", attr);
             if (attr == 1) {
               $(this).addClass("margine")
             }
@@ -972,6 +970,8 @@ $( document ).ready(function() {
     //prendo recupero informazioni id del film episodi e stagioni
     idSeria = $(this).attr("data-id");
 
+    $(".trailer").hide();
+
     //ogni volta che cambio film i bottoni si resettano next cliccabile prev no
     stagSerie = 1;
     console.log(stagSerie);
@@ -1338,6 +1338,8 @@ $( document ).ready(function() {
         stagSerie = 1;
         $(".numero").text("1");
 
+        $(".trailer").hide();
+
 
         }
       )
@@ -1409,7 +1411,7 @@ $( document ).ready(function() {
 
             var youtube = "https://www.youtube.com/embed/";
 
-            var trailerUrl = youtube + response.results[0].key + "?autoplay=1&controls=0";
+            var trailerUrl = youtube + response.results[0].key + "?controls=0";
 
             console.log(trailerUrl);
 
@@ -1420,6 +1422,76 @@ $( document ).ready(function() {
         )}
 
       vvid();
+
+
+
+
+
+      //prendo id dela serie per recuperare i dati poi
+      $( "body" ).on( "click", '.secondo .filmSingolo > .movieSingolo' , function() {
+      //prendo recupero informazioni id del film episodi e stagioni
+      id = $(this).attr("data-id");
+
+      var video = "http://api.themoviedb.org/3/movie/" + id + "/videos?api_key=085f025c352f6e30faea971db0667d31";
+
+      console.log(video);
+      var settings = { url: video }
+
+      function vvid(){
+          $.ajax(settings).done(function (response) {
+
+            console.log("videos",response);
+
+            var youtube = "https://www.youtube.com/embed/";
+
+            var trailerUrl = youtube + response.results[0].key + "?controls=0";
+
+            console.log(trailerUrl);
+
+            $(".trailer iframe").attr("src",trailerUrl);
+
+          }
+
+        )}
+
+      vvid();
+
+      }
+    )
+
+    $( "body" ).on( "click", '.secondo .movieSingolo' , function(e) {
+
+      e.preventDefault();
+        $(".secondo .half").show();
+        $(".trailer").hide();
+
+      }
+    )
+
+
+  $( "body" ).on( "click", '.secondo .btnTrailer' , function(e) {
+
+    e.preventDefault();
+      $(".secondo .half").hide();
+      $(".trailer").show();
+
+    }
+  )
+
+  $( "body" ).on( "click", '.secondo .btnInfoFilm' , function(e) {
+
+    e.preventDefault();
+      $(".secondo .half").show();
+      $(".trailer").hide();
+
+    }
+  )
+
+
+
+
+
+
 
 
 

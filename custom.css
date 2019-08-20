@@ -718,14 +718,18 @@ width: 100%;
 .nextMovie{
   position: absolute;
   font-size: 30px;
-
-
 }
 
 
+.trailer{
+  display: none;
+  min-height: 600px;
+}
 
-
-
+.trailer iframe{
+  width:100%;
+  height: 600px;
+}
 
 
 
