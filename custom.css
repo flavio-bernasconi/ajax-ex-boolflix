@@ -417,7 +417,6 @@ a.attivo{
   width: 80vw;
   left: 50%;
   transform: translateX(-50%);
-  top: 543px;
   max-width: 1500px;
   background: rgb(0, 0, 0);
   color: white;
@@ -712,9 +711,16 @@ width: 100%;
 .margine{
   margin-left: 40px;
 }
+.margine2{
+  margin-right: 40px;
+}
+
+.nextMovie{
+  position: absolute;
+  font-size: 30px;
 
 
-
+}
 
 
 

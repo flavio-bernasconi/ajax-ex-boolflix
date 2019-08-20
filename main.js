@@ -3,6 +3,7 @@ $( document ).ready(function() {
   var inc = 1;
   var stagSerie = 1;
   var votoMovie = "";
+  var numeroFilmChiamti = 20
 
   //film singolo con scheda al click
   var urlSingolo = "https://api.themoviedb.org/3/trending/tv/week?api_key=085f025c352f6e30faea971db0667d31";
@@ -23,7 +24,7 @@ $( document ).ready(function() {
 
         var index = 0;
 
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < numeroFilmChiamti; i++) {
           // console.log("singolo film",response.results[i]);
           index = index + 1;
 
@@ -109,6 +110,10 @@ $( document ).ready(function() {
             if (attr == 1) {
               $(this).addClass("margine")
             }
+            if (attr == numeroFilmChiamti) {
+              $(this).addClass("margine2")
+            }
+
           }
         )
 
@@ -130,7 +135,7 @@ $( document ).ready(function() {
         console.log("oggetto singolo film",response);
         var index = 0;
 
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < numeroFilmChiamti; i++) {
           // console.log("singolo film",response.results[i]);
           index = index + 1;
 
@@ -970,6 +975,8 @@ $( document ).ready(function() {
     //ogni volta che cambio film i bottoni si resettano next cliccabile prev no
     stagSerie = 1;
     console.log(stagSerie);
+    $(".numero").text(stagSerie);
+
     $(".nextSeason").removeClass("not-active");
     $(".prevSeason").addClass("not-active");
 
@@ -1089,6 +1096,7 @@ $( document ).ready(function() {
 
       stagSerie = stagSerie + 1;
       console.log("numero stagione",stagSerie);
+      $(".numero").text(stagSerie);
 
 
       var urlNumeroStagioni = "https://api.themoviedb.org/3/tv/" + idSeria + "?api_key=085f025c352f6e30faea971db0667d31"
@@ -1204,6 +1212,8 @@ $( document ).ready(function() {
 
       stagSerie = stagSerie - 1;
       console.log(stagSerie);
+      $(".numero").text(stagSerie);
+
 
       if (stagSerie == 1) {
         $(this).addClass("not-active");
@@ -1326,6 +1336,8 @@ $( document ).ready(function() {
         $(".relativo").removeClass("attivato");
 
         stagSerie = 1;
+        $(".numero").text("1");
+
 
         }
       )
@@ -1431,18 +1443,36 @@ $( document ).ready(function() {
         }
 
 
-        //scrolla orizzontalmente quando sono nei coroselli slider negli episodi scheda film
-        $(".list").mouseenter(
-            function() {
-              $(".list").mousewheel(function(event, delta) {
-              this.scrollLeft -= (delta * 0.3);
-              event.preventDefault();
-              });
-            }
-          )
+    //scrolla orizzontalmente quando sono nei coroselli slider negli episodi scheda film
+    $(".list").mouseenter(
+        function() {
+          $(".list").mousewheel(function(event, delta) {
+          this.scrollLeft -= (delta * 0.3);
+          event.preventDefault();
+          });
+        }
+      )
 
 
-
+      // var left = 0;
+      // $(".primo .nextMovie").click(
+      //   function (e) {
+      //     e.preventDefault();
+      //     var scrollabile = $(".primo .filmSingolo")[0].scrollWidth;
+      //     console.log("totale",scrollabile);
+      //
+      //     left += (scrollabile/4);
+      //     $(".primo .filmSingolo").scrollLeft(left);
+      //     console.log("margine",left);
+      //
+      //     console.log("differenza",scrollabile - left);
+      //
+      //     if(scrollabile - left <= 0){
+      //       $(".primo .nextMovie").addClass("not-active")
+      //     }
+      //
+      //   }
+      // )
 
 
 
