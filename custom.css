@@ -731,7 +731,9 @@ width: 100%;
 .opaco{
   opacity: 1!important;
 }
-
+.trasparente{
+  opacity: 0.4;
+}
 
 .navSeason a{
   color: white;

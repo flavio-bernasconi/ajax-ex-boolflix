@@ -745,6 +745,10 @@ $( document ).ready(function() {
       finestra = 9501;
       vaiInla = 342;
     }
+    if (width < 600) {
+      finestra = 6499;
+      vaiInla = 342;
+    }
 
     //tasti slider next prev
     var x = $(".pop #caro");
@@ -856,9 +860,30 @@ $( document ).ready(function() {
         $(".listaEpisodi,.stagioniTab").hide();
 
 
-
       }
     );
+
+
+    //hover opacizzo tutti
+    $( "body" ).on( "mouseenter", '.filmSingolo > .movieSingolo ' , function(e) {
+        //prevents from scrolling to top behavior
+        e.preventDefault();
+        //opacizzo tutti film
+        $(".relativo .movieSingolo").not(this).addClass("trasparente")
+        //questo si vede all 100
+        $(this).toggleClass("opaco")
+      }
+    )
+    //mouseleave
+    $( "body" ).on( "mouseleave", '.filmSingolo > .movieSingolo' , function(e) {
+        //prevents from scrolling to top behavior
+        e.preventDefault();
+        //opacizzo tutti film
+        $(".relativo .movieSingolo").not(this).addClass("trasparente")
+        //questo si vede all 100
+        $(this).toggleClass("opaco")
+      }
+    )
 
 
 
