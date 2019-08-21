@@ -232,57 +232,6 @@ $( document ).ready(function() {
     chiamataSingoloM()
 
 
-  //nuovi film new movie
-  var scopri = "https://api.themoviedb.org/3/discover/movie?api_key=085f025c352f6e30faea971db0667d31&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
-
-    settings = {
-      url: scopri
-    }
-
-    function discover(){
-      $.ajax(settings).done(function (response) {
-
-              console.log("scopri",response.results);
-
-              for (var i = 0; i < response.results.length; i++) {
-                // console.log("singolo film",response.results[i]);
-
-                //creo variabili riferimento per handlebars
-                var titoloMovie = response.results[i].title;
-
-                var posterMovie = response.results[i].poster_path;
-
-                var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
-
-                if (posterMovie == null) {
-                  var urlImg = "errore.jpg"
-                }
-
-                //template handelbars
-                var sorgenteCodice = $("#discovery").html();
-
-                var template = Handlebars.compile(sorgenteCodice);
-
-                //richiamo le variabili definite
-                var daInserire = {
-                  titoloFilm: titoloMovie,
-                  poster : urlImg,
-
-                 };
-
-                var html = template(daInserire);
-
-                $("#discoverSlider ul").append(html);
-                //fine templating handlebars
-
-              }//fine ciclo for oggetti
-      }
-
-    )}
-
-    discover()
-
-
     //get generi e aggiungi alla scheda
     var genUrl = "https://api.themoviedb.org/3/genre/movie/list?api_key=085f025c352f6e30faea971db0667d31";
 
@@ -305,7 +254,6 @@ $( document ).ready(function() {
           )
         })
       }
-
 
     generiList()
 
@@ -781,17 +729,21 @@ $( document ).ready(function() {
 
     //responsive slider
     //carosello serie popolari
+    var vaiInla = "";
 
     var finestra = 0;
     var width = $(window).width();
     if (width > 1500) {
       finestra = 5473;
+      vaiInla = 684;
     }
     if (width < 1500) {
       finestra = 9001;
+      vaiInla = 684;
     }
     if (width < 1100) {
       finestra = 9501;
+      vaiInla = 342;
     }
 
     //tasti slider next prev
@@ -803,7 +755,7 @@ $( document ).ready(function() {
       function(){
       $(".pop .caroPrev").show();
 
-      margine = margine + 684;
+      margine = margine + vaiInla;
       if (margine < finestra) {
         x.animate({scrollLeft: margine}, 700);
         console.log(margine);
@@ -818,10 +770,10 @@ $( document ).ready(function() {
       function(){
         $(".pop .caroNext").show();
         if (margine > 0) {
-          margine = margine - 684;
+          margine = margine - vaiInla;
             x.animate({scrollLeft: margine}, 700);
           }
-          if (margine < 500) {
+          if (margine < 100) {
               $(this).hide();
           }
         }
@@ -863,61 +815,6 @@ $( document ).ready(function() {
 
       }
     )
-
-    //responsive slider
-    var vaiInla = "";
-
-    var finestra2 = 0;
-    var width = $(window).width();
-    if (width > 1500) {
-      finestra2 = 9001;
-      vaiInla = 684;
-    }
-    if (width < 1500) {
-      finestra2 = 14821;
-      vaiInla = 684;
-    }
-    if (width < 1100) {
-      finestra2 = 15601;
-      vaiInla = 342;
-    }
-
-    //tasti slider next prev carosello slider movie
-    var y = $(".discoverContainer #discoverSlider");
-    var margine2 = 0;
-
-    $(".discoverContainer .caroNext").click(
-      function(){
-      $(".discoverContainer .caroPrev").show();
-
-      margine2 = margine2 + vaiInla;
-      if (margine2 < finestra2) {
-        y.animate({scrollLeft: margine2}, 700);
-        console.log(margine2);
-        }
-        if (margine2 == finestra2-1) {
-          $(".caroNext").hide();
-        }
-      }
-    )
-
-
-    $(".discoverContainer .caroPrev").click(
-      function(){
-        $(".discoverContainer  .caroNext").show();
-        if (margine2 > 0) {
-          margine2 = margine2 - vaiInla;
-            y.animate({scrollLeft: margine2}, 700);
-          }
-          if (margine2 < vaiInla) {
-              $(this).hide();
-          }
-        }
-    );
-
-    if (margine2 == 0) {
-      $(".discoverContainer .caroPrev").hide();
-    }
 
 
     // var siVede = true;
@@ -1363,21 +1260,13 @@ $( document ).ready(function() {
         //prevents from scrolling to top behavior
         e.preventDefault();
 
-        $(".listaEpisodi,.stagioniTab").hide();
+        $(".listaEpisodi").hide();
         $(".half").show();
 
       }
     );
 
-    $( "body" ).on( "click", '.schedaFilm .btnInfoStagioni ' , function(e) {
-        //prevents from scrolling to top behavior
-        e.preventDefault();
 
-        $(".listaEpisodi,.half").hide();
-        $(".stagioniTab").show();
-
-      }
-    );
 
 
 
@@ -1427,65 +1316,71 @@ $( document ).ready(function() {
 
 
 
-      //prendo id dela serie per recuperare i dati poi
-      $( "body" ).on( "click", '.secondo .filmSingolo > .movieSingolo' , function() {
-      //prendo recupero informazioni id del film episodi e stagioni
-      id = $(this).attr("data-id");
+    //prendo id dela serie per recuperare i dati poi
+    $( "body" ).on( "click", '.secondo .filmSingolo > .movieSingolo' , function() {
+    //prendo recupero informazioni id del film episodi e stagioni
+    id = $(this).attr("data-id");
 
-      var video = "http://api.themoviedb.org/3/movie/" + id + "/videos?api_key=085f025c352f6e30faea971db0667d31";
+    var video = "http://api.themoviedb.org/3/movie/" + id + "/videos?api_key=085f025c352f6e30faea971db0667d31";
 
-      console.log(video);
-      var settings = { url: video }
+    console.log(video);
+    var settings = { url: video }
 
-      function vvid(){
-          $.ajax(settings).done(function (response) {
+    function vvid(){
+        $.ajax(settings).done(function (response) {
 
-            console.log("videos",response);
+          console.log("videos",response);
 
-            var youtube = "https://www.youtube.com/embed/";
+          var youtube = "https://www.youtube.com/embed/";
 
-            var trailerUrl = youtube + response.results[0].key + "?controls=0";
+          var trailerUrl = youtube + response.results[0].key + "?controls=0";
 
-            console.log(trailerUrl);
+          console.log(trailerUrl);
 
-            $(".trailer iframe").attr("src",trailerUrl);
+          $(".trailer iframe").attr("src",trailerUrl);
 
-          }
+        }
 
-        )}
+      )}
 
-      vvid();
+    vvid();
 
-      }
+
+    }
     )
 
     $( "body" ).on( "click", '.secondo .movieSingolo' , function(e) {
 
+        e.preventDefault();
+          $(".secondo .half").show();
+          $(".trailer").hide();
+
+        }
+    )
+
+
+    $( "body" ).on( "click", '.secondo .btnTrailer' , function(e) {
+
+      e.preventDefault();
+        $(".secondo .half").hide();
+        $(".trailer").show();
+        $(".full").addClass("opaco")
+
+
+      }
+    )
+
+    $( "body" ).on( "click", '.secondo .btnInfoFilm' , function(e) {
+
       e.preventDefault();
         $(".secondo .half").show();
         $(".trailer").hide();
+        $(".full").removeClass("opaco")
 
       }
     )
 
 
-  $( "body" ).on( "click", '.secondo .btnTrailer' , function(e) {
-
-    e.preventDefault();
-      $(".secondo .half").hide();
-      $(".trailer").show();
-
-    }
-  )
-
-  $( "body" ).on( "click", '.secondo .btnInfoFilm' , function(e) {
-
-    e.preventDefault();
-      $(".secondo .half").show();
-      $(".trailer").hide();
-
-    }
-  )
 
 
 
@@ -1493,10 +1388,8 @@ $( document ).ready(function() {
 
 
 
-
-
-      //do le stelline stelle voto rate al film
-      function daiVoto(){
+    //do le stelline stelle voto rate al film
+    function daiVoto(){
           $(".rate").each(
             function(){
               var num = $(this).attr("data-numero");
