@@ -141,9 +141,10 @@ a.attivo{
 /* singolo film  */
 .movieSingolo{
   position: relative;
-}
-.movieSingolo{
   cursor: pointer;
+}
+.movieSingolo:hover{
+  opacity: 0.6;
 }
 .overlay{
   position: absolute;

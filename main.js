@@ -848,10 +848,12 @@ $( document ).ready(function() {
        //immagine di sfondo stessa del poster
        $(".schedaFilm").css("background-image","url('https://image.tmdb.org/t/p/w1280" + bk + "')")
 
+
         //opacizzo tutti film
-        $(".relativo .movieSingolo").not(this).animate({opacity: 0.4}, 200);
-        //questo si vede all 100
-        $(this).animate({opacity: 1}, 0);
+        $(".relativo .movieSingolo").not(this).addClass("trasparente");
+        //problema rimane l ultimo con l opacita al 100
+        $(this).addClass("opaco");
+
 
         $(".infoSingolo").children().css("animation-name","opacita");
 
@@ -864,26 +866,19 @@ $( document ).ready(function() {
     );
 
 
-    //hover opacizzo tutti
-    $( "body" ).on( "mouseenter", '.filmSingolo > .movieSingolo ' , function(e) {
-        //prevents from scrolling to top behavior
-        e.preventDefault();
-        //opacizzo tutti film
-        $(".relativo .movieSingolo").not(this).addClass("trasparente")
-        //questo si vede all 100
-        $(this).toggleClass("opaco")
-      }
-    )
-    //mouseleave
-    $( "body" ).on( "mouseleave", '.filmSingolo > .movieSingolo' , function(e) {
-        //prevents from scrolling to top behavior
-        e.preventDefault();
-        //opacizzo tutti film
-        $(".relativo .movieSingolo").not(this).addClass("trasparente")
-        //questo si vede all 100
-        $(this).toggleClass("opaco")
-      }
-    )
+    // //hover opacizzo tutti
+    // $( "body" ).on( "mouseenter", '.filmSingolo > .movieSingolo ' , function(e) {
+    //     //prevents from scrolling to top behavior
+    //     e.preventDefault();
+    //     $(".relativo .movieSingolo").removeClass("opaco");
+    //     //opacizzo tutti film
+    //     $(".relativo .movieSingolo").addClass("trasparente");
+    //     //questo si vede all 100
+    //     $(this).addClass("opaco");
+    //   }
+    // )
+
+
 
 
 
@@ -1121,10 +1116,6 @@ $( document ).ready(function() {
     }
   )
 
-
-
-
-
   $(".prevSeason").click(
     function(e){
       e.preventDefault();
@@ -1253,7 +1244,7 @@ $( document ).ready(function() {
         $(".schedaFilm").hide();
         console.log("ho cliccato chiudi");
 
-        $(".relativo .movieSingolo").animate({opacity: 1}, 200);
+        $(".relativo .movieSingolo").removeClass("trasparente");
 
         $(".relativo").removeClass("attivato");
 
@@ -1261,6 +1252,8 @@ $( document ).ready(function() {
         $(".numero").text("1");
 
         $(".trailer").hide();
+
+        $(".relativo .movieSingolo").addClass("opaco");
 
 
         }
