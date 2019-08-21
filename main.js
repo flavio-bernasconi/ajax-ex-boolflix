@@ -866,17 +866,6 @@ $( document ).ready(function() {
     );
 
 
-    // //hover opacizzo tutti
-    // $( "body" ).on( "mouseenter", '.filmSingolo > .movieSingolo ' , function(e) {
-    //     //prevents from scrolling to top behavior
-    //     e.preventDefault();
-    //     $(".relativo .movieSingolo").removeClass("opaco");
-    //     //opacizzo tutti film
-    //     $(".relativo .movieSingolo").addClass("trasparente");
-    //     //questo si vede all 100
-    //     $(this).addClass("opaco");
-    //   }
-    // )
 
 
 
@@ -1253,7 +1242,7 @@ $( document ).ready(function() {
 
         $(".trailer").hide();
 
-        $(".relativo .movieSingolo").addClass("opaco");
+        $(".relativo .movieSingolo").removeClass("opaco");
 
 
         }
