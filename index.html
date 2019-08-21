@@ -79,17 +79,17 @@
 
       <!-- VIDEOOOOO -->
       <div class="videoFilm">
-        <iframe class="video" width="100%" height="100%" src="" frameborder="0" webkitallowfullscreen mozallowfullscreen  allowfullscreen></iframe>
+        <iframe class="video" src="" frameborder="0" webkitallowfullscreen mozallowfullscreen  allowfullscreen></iframe>
       </div>
 
 
 
-      <div class="contenitoreHome">
+    <div class="contenitoreHome">
 
       <!-- CON SCHEDA FILM E SCROLL orizzonatale -->
       <div class="relativo primo">
         <h1>Serie</h1>
-        <div class="filmSingolo"  >
+        <div class="filmSingolo" >
           <!-- <a href="#" class="nextMovie">next</a> -->
         </div>
           <div class="schedaFilm vedi">
@@ -129,7 +129,7 @@
       <div class="relativo secondo ">
         <h1>Movie</h1>
         <div class="filmSingolo">
-
+          <!-- slider -->
         </div>
 
           <div class="schedaFilm vedi">
@@ -173,7 +173,7 @@
 
       <!-- SLIDER CON TITOLO  -->
       <!-- movie slider -->
-      <div class=" discoverContainer">
+      <!-- <div class=" discoverContainer">
 
       <div class="orizzonatale pop">
         <div class="text">
@@ -186,7 +186,7 @@
         </div>
         <a class="btn-caro caroNext"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
         <a class="btn-caro caroPrev"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-      </div>
+      </div> -->
 
 
 
@@ -317,5 +317,40 @@
         <script src="main.js" charset="utf-8"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.js" charset="utf-8"></script>
+
+
+
+    <!-- slider draggabile https://gist.github.com/psdtohtml5/5908031 -->
+    <script type="text/javascript">
+       $(document).ready(function() {
+                  $('.filmSingolo').mousedown(function (event) {
+                      $(this)
+                          .data('down', true)
+                          .data('x', event.clientX)
+                          .data('scrollLeft', this.scrollLeft)
+                          .addClass("dragging");
+
+                      return false;
+                  }).mouseup(function (event) {
+                      $(this)
+                         .data('down', false)
+                         .removeClass("dragging");
+                  }).mousemove(function (event) {
+                      if ($(this).data('down') == true) {
+                          this.scrollLeft = $(this).data('scrollLeft') + $(this).data('x') - event.clientX;
+                      }
+                  })
+                  $(window).mouseout(function (event) {
+                  if ($('.team-form-data').data('down')) {
+                      try {
+                          if (event.originalTarget.nodeName == 'BODY' || event.originalTarget.nodeName == 'HTML') {
+                              $('.team-form-data').data('down', false);
+                          }
+                      } catch (e) {}
+                  }
+             });
+           });
+    </script>
+
     </body>
 </html>

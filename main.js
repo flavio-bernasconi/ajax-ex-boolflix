@@ -5,7 +5,7 @@ $( document ).ready(function() {
   var votoMovie = "";
   var numeroFilmChiamti = 20
 
-  //film singolo con scheda al click
+  //film singolo con scheda film al click
   var urlSingolo = "https://api.themoviedb.org/3/trending/tv/week?api_key=085f025c352f6e30faea971db0667d31";
 
     var settings = {
@@ -51,7 +51,7 @@ $( document ).ready(function() {
           var tramaMovie = response.results[i].overview;
 
 
-          var urlImg = "https://image.tmdb.org/t/p/w200"+posterMovie;
+          var urlImg = "https://image.tmdb.org/t/p/w342"+posterMovie;
 
           //fare funzione per non ripetersi
           if (posterMovie == null) {
@@ -827,45 +827,45 @@ $( document ).ready(function() {
     var idSeria = "0";
 
     //apri scheda film singolo
-    $( "body" ).on( "click", '.filmSingolo > .movieSingolo ' , function(e) {
-        //prevents from scrolling to top behavior
-        e.preventDefault();
+      $( "body" ).on( "click", '.filmSingolo .movieSingolo ' , function(e) {
+          //prevents from scrolling to top behavior
+          e.preventDefault();
 
-        $("div.attivato").removeClass("attivato");
+          $("div.attivato").removeClass("attivato");
 
-        $(this).parents().addClass("attivato");
+          $(this).parents().addClass("attivato");
 
-        var idFilm = $(this).attr("data-id");
+          var idFilm = $(this).attr("data-id");
 
-        $(".relativo .schedaFilm").hide();
-        $(".relativo.attivato .schedaFilm").show();
+          //vedo scheda film
+          $(".relativo .schedaFilm").removeClass("flexa");
+          $(".relativo.attivato .schedaFilm").addClass("flexa");
 
-        $(".infoSingolo").hide();
+          $(".infoSingolo").hide();
 
-        $("[data-id="+ idFilm + "]").show();
+          $("[data-id="+ idFilm + "]").show();
 
-        var bk = $(this).find(".img-film").attr("data-background");
-       //immagine di sfondo stessa del poster
-       $(".schedaFilm").css("background-image","url('https://image.tmdb.org/t/p/w1280" + bk + "')")
-
-
-        //opacizzo tutti film
-        $(".relativo .movieSingolo").not(this).addClass("trasparente");
-        //problema rimane l ultimo con l opacita al 100
-        $(this).addClass("opaco");
+          var bk = $(this).find(".img-film").attr("data-background");
+         //immagine di sfondo stessa del poster
+         $(".schedaFilm").css("background-image","url('https://image.tmdb.org/t/p/w1280" + bk + "')")
 
 
-        $(".infoSingolo").children().css("animation-name","opacita");
-
-        $(".half").show();
-
-        $(".listaEpisodi,.stagioniTab").hide();
-
-
-      }
-    );
+         $(".relativo .movieSingolo").removeClass("opaco");
+          //opacizzo tutti film
+          $(".relativo .movieSingolo").not(this).addClass("trasparente");
+          //problema rimane l ultimo con l opacita al 100
+          $(this).addClass("opaco");
 
 
+          $(".infoSingolo").children().css("animation-name","opacita");
+
+          $(".half").show();
+
+          $(".listaEpisodi,.stagioniTab").hide();
+
+
+        }
+      );
 
 
 
@@ -1222,33 +1222,26 @@ $( document ).ready(function() {
   )
 
 
+  //chiudi scheda film
+  $( "body" ).on( "click", '.chiudiScheda' , function() {
+
+      $(".relativo .schedaFilm").removeClass("flexa");
+      console.log("ho cliccato chiudi");
+
+      $(".relativo .movieSingolo").removeClass("trasparente");
+
+      $(".relativo").removeClass("attivato");
+
+      stagSerie = 1;
+      $(".numero").text("1");
+
+      $(".trailer").hide();
+
+      $(".relativo .movieSingolo").removeClass("opaco");
 
 
-
-
-
-
-    $( "body" ).on( "click", '.chiudiScheda' , function() {
-
-        $(".schedaFilm").hide();
-        console.log("ho cliccato chiudi");
-
-        $(".relativo .movieSingolo").removeClass("trasparente");
-
-        $(".relativo").removeClass("attivato");
-
-        stagSerie = 1;
-        $(".numero").text("1");
-
-        $(".trailer").hide();
-
-        $(".relativo .movieSingolo").removeClass("opaco");
-
-
-        }
-      )
-
-
+      }
+    )
 
 
     // tab con info sugli episodi
@@ -1274,50 +1267,31 @@ $( document ).ready(function() {
     );
 
 
+  //video trailer film
 
+    var id  = "4935";
+    var video = "http://api.themoviedb.org/3/movie/" + id + "/videos?api_key=085f025c352f6e30faea971db0667d31";
 
+    var settings = { url: video }
 
+    function vvid(){
+        $.ajax(settings).done(function (response) {
 
+          console.log("videos",response);
 
+          var youtube = "https://www.youtube.com/embed/";
 
+          var trailerUrl = youtube + response.results[0].key + "?controls=0";
 
+          console.log(trailerUrl);
 
+          $(".videoFilm iframe").attr("src",trailerUrl);
 
+        }
 
+      )}
 
-
-
-
-
-
-
-
-
-      //video trailer film
-
-      var id  = "4935";
-      var video = "http://api.themoviedb.org/3/movie/" + id + "/videos?api_key=085f025c352f6e30faea971db0667d31";
-
-      var settings = { url: video }
-
-      function vvid(){
-          $.ajax(settings).done(function (response) {
-
-            console.log("videos",response);
-
-            var youtube = "https://www.youtube.com/embed/";
-
-            var trailerUrl = youtube + response.results[0].key + "?controls=0";
-
-            console.log(trailerUrl);
-
-            $(".videoFilm iframe").attr("src",trailerUrl);
-
-          }
-
-        )}
-
-      vvid();
+    vvid();
 
 
 
@@ -1371,7 +1345,7 @@ $( document ).ready(function() {
       e.preventDefault();
         $(".secondo .half").hide();
         $(".trailer").show();
-        $(".full").addClass("opaco")
+        $(".full").addClass("opaco2")
 
 
       }
@@ -1386,13 +1360,6 @@ $( document ).ready(function() {
 
       }
     )
-
-
-
-
-
-
-
 
 
     //do le stelline stelle voto rate al film
@@ -1424,28 +1391,6 @@ $( document ).ready(function() {
           });
         }
       )
-
-
-      // var left = 0;
-      // $(".primo .nextMovie").click(
-      //   function (e) {
-      //     e.preventDefault();
-      //     var scrollabile = $(".primo .filmSingolo")[0].scrollWidth;
-      //     console.log("totale",scrollabile);
-      //
-      //     left += (scrollabile/4);
-      //     $(".primo .filmSingolo").scrollLeft(left);
-      //     console.log("margine",left);
-      //
-      //     console.log("differenza",scrollabile - left);
-      //
-      //     if(scrollabile - left <= 0){
-      //       $(".primo .nextMovie").addClass("not-active")
-      //     }
-      //
-      //   }
-      // )
-
 
 
 
