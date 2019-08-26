@@ -20,7 +20,7 @@
       <div class="searchBar">
         <div class="">
           <a href="#" class="ricarica">
-            <img src="logo.png" alt="" width="70px">
+            <img src="logo-2.png" alt="" width="120px">
           </a>
         </div>
         <div class="">
@@ -107,7 +107,7 @@
                 <div class="listaEpisodi">
                   <div class="navSeason">
                     <a href="#" class="prevSeason">Prev</a>
-                    <p>Season<span class="numero">1</span> </p>
+                    <p>Season <span class="numero">1</span> </p>
                     <a href="#" class="nextSeason">Next</a>
                   </div>
 
@@ -206,16 +206,16 @@
 
 
 
-      <!-- template  -->
+      <!-- template cerca -->
       <script id="dataBase" type="text/x-handlebars-template">
-        <div class='movieSingolo'>
+        <div class='movieSingolo' data-type="{{type}}">
           <img class="img-film" src='{{poster}}'>
           <div class="overlay">
             <div class="dettagli">
               <!-- <p>Titolo</p> -->
               <h3 class="title">{{titoloFilm}}</h3>
               <p>{{titoloOriginale}}</p>
-              <p><span class="lang" data-lingua='{{lingua}}'></span></p>
+              <p><span class="lang" >{{{lingua}}}</span></p>
               <p><span class="rate" data-numero='{{voto}}'></span></p>
               <p class="sinossi">{{trama}}</p>
               <p class="genere" data-genere="{{popolarita}}"></p>
@@ -225,37 +225,9 @@
       </script>
 
 
-      <script id="iniziale" type="text/x-handlebars-template">
-        <li>
-            <div class='movieSingolo'>
-                <img class="img-film" src='{{poster}}'>
-                <div class="overlay">
-                  <div class="dettagli">
-                    <p class="title">{{titoloFilm}}</p>
-                  </div>
-                </div>
-            </div>
-        </li>
-      </script>
-
-
-      <script id="trending" type="text/x-handlebars-template">
-            <div class='movieSingolo'>
-                <img class="img-film" src='{{poster}}'>
-                <div class="overlay">
-                  <div class="dettagli">
-                    <p class="title">{{titoloSerie}}</p>
-                  </div>
-                </div>
-            </div>
-      </script>
-
-
-
-
       <!-- template movie singoli negli slider -->
       <script id="scheda" type="text/x-handlebars-template">
-        <div class='movieSingolo' data-id="{{riconoscimento}}" data-index="{{indice}}">
+        <div class='movieSingolo' data-id="{{riconoscimento}}" data-index="{{indice}}" data-type="{{type}}">
           <img class="img-film" src='{{poster}}' data-background="{{sfondo}}" >
         </div>
       </script>
@@ -263,14 +235,13 @@
 
 
     <script id="schedaFilmTemplate" type="text/x-handlebars-template">
-      <div class="infoSingolo" data-id="{{riconoscimento}}">
+      <div class="infoSingolo" data-id="{{riconoscimento}}" >
               <h3 class="title">{{titoloFilm}}</h3>
               <p class="dataRilascio">{{rilascio}}</p>
               <p class="sintesi" >{{trama}}</p>
               <span class="rate" data-numero='{{voto}}'></span>
               <p class="genere" data-genere="{{gen}}"></p>
               <a href="link.html"  class="play"><i class="fa fa-play-circle" aria-hidden="true"></i> Play</a>
-
             <div class="corner">
               <div>
                 <h3>Stagioni</h3>
@@ -288,7 +259,6 @@
 
     <script id="listaEpisodiTemplate" type="text/x-handlebars-template">
       <div class="infoSingolo epi" data-id="{{riconoscimento}}">
-
             <img src="{{epImg}}" />
             <h3>{{nomiEp}}</h3>
             <div class="tramaEpisodio">
@@ -296,7 +266,6 @@
                 {{epTrama}}
               </p>
             </div>
-
       </div>
     </script>
 
@@ -313,12 +282,8 @@
 
 
 
-
-        <script src="main.js" charset="utf-8"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.js" charset="utf-8"></script>
-
-
+    <script src="main.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.js" charset="utf-8"></script>
 
     <!-- slider draggabile https://gist.github.com/psdtohtml5/5908031 -->
     <script type="text/javascript">

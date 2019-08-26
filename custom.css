@@ -102,6 +102,13 @@ body{
   font-size: 20px;
 }
 
+.container .movieSingolo:hover {
+  opacity: 1;
+}
+.lang img{
+  width: 50px;
+  margin: 15px 0;
+}
 
 
 /* filtri bar */
