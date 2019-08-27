@@ -168,6 +168,9 @@ $( document ).ready(function() {
 
           console.log(" fine CHIAMATA SERIE");
 
+          generiMovie();
+          generiSerie();
+
 
         },
         error : function(err){
@@ -183,7 +186,7 @@ $( document ).ready(function() {
     //pulisco il contenitore quando rifaccio la chiamata non si accavallano il risultato vecchio con quello nuovo
     $(".container").empty();
 
-  }
+  }//fine funzione searchfilm
 
   // metti la bandiera
   function getLang(lang){
@@ -209,14 +212,12 @@ $( document ).ready(function() {
   }
 
 
-  //aggiungi generi ai fil nel cerca
+  //aggiungi generi ai film nel cerca
   //generi film
   function generiMovie(){
       $.ajax({
         url: "https://api.themoviedb.org/3/genre/movie/list?api_key=085f025c352f6e30faea971db0667d31",
         success:function (response) {
-
-         console.log("cosa sei? movie",response);
 
          $("div[data-type='movie'] .genere").each(
            function(){
@@ -277,9 +278,6 @@ $( document ).ready(function() {
   //poi faccio la chiamta
   searchFilm();
 
-  generiMovie();
-  generiSerie();
-
   }//fine funzione cerca
 
 
@@ -313,7 +311,7 @@ $( document ).ready(function() {
 
 
   //SLIDER HOME
-  //aggiungo serei allo slider in home
+  //aggiungo serie allo slider in home
   $.ajax({
     url: "https://api.themoviedb.org/3/trending/tv/week?api_key=085f025c352f6e30faea971db0667d31",
     success:function (response) {
@@ -527,16 +525,12 @@ $( document ).ready(function() {
         }
       })
 
-
-
-
-
-  //aggiungo generi ai film
+  //aggiungo generi ai film in home slider
   $.ajax({
           url: "https://api.themoviedb.org/3/genre/movie/list?api_key=085f025c352f6e30faea971db0667d31",
           success: function (response) {
 
-            $(".genere").each(
+            $(".secondo .genere").each(
               function(){
                 var attributogenere = $(this).attr("data-genere");
 
@@ -555,7 +549,31 @@ $( document ).ready(function() {
 
         })
 
+  //aggiungo generi alle serie in home slider
+  $.ajax({
+          url: "https://api.themoviedb.org/3/genre/tv/list?api_key=085f025c352f6e30faea971db0667d31",
+          success: function (response) {
 
+            console.log("generi tvvv",response);
+
+            $(".primo .genere").each(
+              function(){
+                var attributogenere = $(this).attr("data-genere");
+
+                for (var i = 0; i < 16; i++) {
+                  if (attributogenere.includes(response.genres[i].id)) {
+                    $(this).append("<span>" + response.genres[i].name + "</span>")
+                  }
+                }
+
+              }
+            )
+          },
+          error : function(error){
+            console.log(error);
+          }
+
+        })
 
 
 
@@ -602,15 +620,16 @@ $( document ).ready(function() {
         if (inc > 1) {
           inc = inc-1;
           $(".container").empty();
-          searchFilm()
+          searchFilm();
+
         }
 
       }
     )
 
 
-    //quando clicco sul logo
-    $(".ricarica").click(
+  //quando clicco sul logo
+  $(".ricarica").click(
       function(){
         //ricarico semplicemtne la pagina -.-
         location.reload();
